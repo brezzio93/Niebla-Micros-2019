@@ -120,7 +120,12 @@ namespace Com.MyCompany.MyGame
             roomOptions.IsVisible = true;
             roomOptions.CustomRoomPropertiesForLobby = new string[1] { "Imagen" };
             roomOptions.MaxPlayers = System.Convert.ToByte(cantidad);
-            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "Imagen", PlayerParameters.ChosenName } }; // add this line
+            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                { "Imagen", PlayerParameters.ChosenName },
+                {"monto",RoomParameters.param.monto},
+                {"precio",RoomParameters.param.precio},
+                {"ganancia",RoomParameters.param.ganancia}
+            }; 
 
             Debug.Log(PlayerParameters.ChosenName);
 
