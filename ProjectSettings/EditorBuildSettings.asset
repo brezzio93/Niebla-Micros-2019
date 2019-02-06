@@ -30,9 +30,12 @@ EditorBuildSettings:
     path: Assets/Scenes/07 Viajando.unity
     guid: 5eb6c61ac3900cf4c86082dd6914bd2c
   - enabled: 1
-    path: Assets/Scenes/08 Resultados.unity
+    path: Assets/Scenes/08 Llegada.unity
+    guid: bd6b209579f4cf0409d945c00a938e13
+  - enabled: 1
+    path: Assets/Scenes/09 Resultados.unity
     guid: e10d10b435a808249965e5d9584b11f7
   - enabled: 1
-    path: Assets/Scenes/09 Resultados Finales.unity
+    path: Assets/Scenes/10 Resultados Finales.unity
     guid: 49cba34de6f75da42a772bf4cf339059
   m_configObjects: {}

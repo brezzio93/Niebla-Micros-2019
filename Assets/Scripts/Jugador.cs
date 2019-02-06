@@ -2,19 +2,26 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 namespace Com.MyCompany.MyGame
 {
     public class Jugador : MonoBehaviourPunCallbacks
     {
-        GameManager manager = new GameManager();
+        private GameManager manager = new GameManager();
 
         private Image avatar;
         private string nombre;
         private bool[] pago = new bool[10];
-        private int billetera;
+        public static int billetera;
 
         [SerializeField]
         private Text t_dias;
+
+        [SerializeField]
+        private Text pasaje;
+
+        [SerializeField]
+        private Text saldo;
 
         private int dias = 1;
         private float probabilidad;
@@ -24,13 +31,16 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
-            billetera = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
+            if(billetera==0)billetera = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
             t_dias.text = "Día " + System.Convert.ToString(dias);
+            saldo.text = System.Convert.ToString(billetera);
+            pasaje.text = System.Convert.ToString(PhotonNetwork.CurrentRoom.CustomProperties["precio"]);
         }
 
         // Update is called once per frame
         private void Update()
         {
+            saldo.text = System.Convert.ToString(billetera);
         }
 
         /// <summary>
@@ -40,22 +50,22 @@ namespace Com.MyCompany.MyGame
         /// <param name="button"></param>
         public void OtroDia(bool button)
         {
-            if (dias <= 10)
+            if (dias < 10)
             {
                 Pagar(button);
                 Llegar();
                 Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias]);
                 dias++;
-                Debug.Log("Comienza Día " + (dias));                
+                Debug.Log("Comienza Día " + (dias));
                 Debug.Log("Saldo " + PhotonNetwork.LocalPlayer.NickName + ": " + billetera);
                 t_dias.text = "Día " + System.Convert.ToString(dias);
-                //manager.SwitchScenes(7);
+                manager.SwitchScenes(7);
             }
-            else
+            else if (dias == 10)
             {
-                for (int i = 1; i <= dias; i++)
-                    Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["pago"+i]);
                 Debug.Log("Finalizado");
+                for (int i = 1; i <= dias; i++)
+                    Debug.Log(PhotonNetwork.LocalPlayer.CustomProperties["pago" + i]);                
                 PhotonNetwork.LeaveRoom();
                 SceneManager.LoadScene(0);
             }
@@ -66,11 +76,12 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void Pagar(bool button)
         {
+            PhotonNetwork.LocalPlayer.CustomProperties["InBus"] = true;
             if (button) Debug.Log("Se pagó hoy");
             else Debug.Log("No se pagó hoy");
             //pago[dias] = button;
-            PhotonNetwork.LocalPlayer.CustomProperties["pago"+dias] = button;
-            if (PhotonNetwork.LocalPlayer.CustomProperties["pago"+dias].Equals(true))
+            PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias] = button;
+            if (PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias].Equals(true))
                 billetera = billetera - System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["precio"]);
         }
 

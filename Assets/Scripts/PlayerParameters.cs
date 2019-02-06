@@ -29,13 +29,14 @@ namespace Com.MyCompany.MyGame
             {
                 pago.Add("pago"+i, false);
                 llega.Add("llega" + i, false);
-            }
+            }            
             PhotonNetwork.SetPlayerCustomProperties(pago);
             PhotonNetwork.SetPlayerCustomProperties(llega);
 
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
             //CustomProps["paga"] = new bool[10];
             //CustomProps["llega"] = new bool[10];
+            CustomProps["InBus"] = false;
             CustomProps["Avatar"] = ChosenName;
             PhotonNetwork.SetPlayerCustomProperties(CustomProps);
         }

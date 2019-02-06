@@ -14,8 +14,6 @@ namespace Com.MyCompany.MyGame
         private Dictionary<string, RoomInfo> cachedRoomList;
         private RoomParameters parameters = new RoomParameters();
 
-        private AtlasLoader atlas = new AtlasLoader();
-
         private Scene currentScene;
         private string SceneName;
 
