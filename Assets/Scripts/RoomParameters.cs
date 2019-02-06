@@ -10,7 +10,6 @@ namespace Com.MyCompany.MyGame
     [RequireComponent(typeof(InputField))]
     public class RoomParameters : MonoBehaviour
     {
-        private InputField nombre;
 
         [SerializeField]
         private InputField monto;
@@ -25,7 +24,7 @@ namespace Com.MyCompany.MyGame
         private InputField cantidad;
 
         [SerializeField]
-        private Text txt;
+        private Text Warning;
 
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
@@ -61,7 +60,7 @@ namespace Com.MyCompany.MyGame
             param.cantidad = cantidad.text;
 
             int cant = System.Convert.ToInt32(param.cantidad);
-            if (cant > 20) txt.text = "Advertencia: La Sala no puede tener más de 20 Jugadores";
+            if (cant > 20) Warning.text = "Advertencia: La Sala no puede tener más de 20 Jugadores";
         }
 
         /// <summary>
@@ -82,7 +81,7 @@ namespace Com.MyCompany.MyGame
         public void CrearSala()
         {
             Debug.Log("CrearSala()");
-            int cantidad = System.Convert.ToInt32(RoomParameters.param.cantidad);
+            int cantidad = System.Convert.ToInt32(param.cantidad);
             if (cantidad <= 20)
             {
                 PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName, new RoomOptions

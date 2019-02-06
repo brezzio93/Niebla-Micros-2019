@@ -598,15 +598,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 364370638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bfc3df16eb6f2b4db63d6086fd90e81, type: 3}
+  m_Script: {fileID: 11500000, guid: aa9f8b143fe30c546aa6e25dd27a654a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nombre: {fileID: 0}
   monto: {fileID: 1148185255}
   precio: {fileID: 1407246785}
   ganancia: {fileID: 681351728}
   cantidad: {fileID: 127947909}
-  txt: {fileID: 1721786419}
+  Warning: {fileID: 1721786419}
 --- !u!114 &364370640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,7 +936,7 @@ GameObject:
   - component: {fileID: 681351729}
   - component: {fileID: 681351728}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: InputField Ganancia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1377,7 +1376,7 @@ GameObject:
   - component: {fileID: 1148185256}
   - component: {fileID: 1148185255}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: InputField Monto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1598,7 +1597,7 @@ GameObject:
   - component: {fileID: 1407246786}
   - component: {fileID: 1407246785}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: InputField Precio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

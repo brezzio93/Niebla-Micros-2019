@@ -114,7 +114,7 @@ namespace Com.MyCompany.MyGame
         {
             Debug.Log("CrearSala()");
             int cantidad = System.Convert.ToInt32(RoomParameters.param.cantidad);
-
+            Debug.Log(RoomParameters.param.cantidad);
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.IsOpen = true;
             roomOptions.IsVisible = true;
