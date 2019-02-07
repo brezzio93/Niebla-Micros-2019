@@ -31,9 +31,7 @@ namespace Com.MyCompany.MyGame
 
             for (int i = 0; i < maxPlayers; i++)
             {
-                Debug.Log(PhotonNetwork.PlayerList[i].CustomProperties["InBus"]);
                 if (PhotonNetwork.PlayerList[i].CustomProperties["InBus"].Equals(true)) playersdone++;
-                Debug.Log(playersdone);
             }
             return System.Convert.ToString(playersdone);
         }
@@ -41,7 +39,15 @@ namespace Com.MyCompany.MyGame
         public void TerminarDia()
         {
             if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["llega"+Jugador.dias]=CalcularLlegada();
                 manager.SwitchScenes(8);
+            }
+        }
+
+        private bool CalcularLlegada()
+        {
+            return true;
         }
     }
 }

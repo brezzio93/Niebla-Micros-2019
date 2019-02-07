@@ -13,6 +13,7 @@ namespace Com.MyCompany.MyGame
         // Use this for initialization
         private void Start()
         {
+            DontDestroyOnLoad(this);
         }
 
         private void Update()
