@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 1172600471}
   - component: {fileID: 1172600470}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button Salas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

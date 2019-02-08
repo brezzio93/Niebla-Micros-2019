@@ -11,6 +11,9 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text dia, paga, llega, ganancia, montoInicial, montoActual, pagados, llegados, next;
 
+        [SerializeField]
+        private Image graphPagados, graphLlegados;
+
         private Jugador Jugador = new Jugador();
 
         // Start is called before the first frame update
@@ -23,8 +26,9 @@ namespace Com.MyCompany.MyGame
             else paga.text = "No";
 
             pagados.text = Contar("pago") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+            llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+            Llenar();
 
-            Debug.Log("Graphs Llega " + PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]);
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]) == true)
             {
                 llega.text = "Si";
@@ -36,17 +40,11 @@ namespace Com.MyCompany.MyGame
                 ganancia.text = "0";
             }
 
-            llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
             montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.dias - 1));
             montoActual.text = System.Convert.ToString(CalcularBilletera(Jugador.dias));
 
             if (Jugador.dias == 10) next.text = "Ver Resultados Finales";
             else next.text = System.Convert.ToString("Día " + (Jugador.dias + 1));
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
         }
 
         public void DiaSiguiente()
@@ -64,10 +62,12 @@ namespace Com.MyCompany.MyGame
         private string Contar(string str)
         {
             int i = 0;
+            bool test;
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                Debug.Log(p.NickName+" "+ str + " " + p.CustomProperties[str + Jugador.dias]);
-                if (System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias])) i++;
+                Debug.Log("Día" + Jugador.dias + ": " + p.NickName + " " + str + " " + p.CustomProperties[str + Jugador.dias]);
+                test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias]);
+                if (test) i++;
             }
             return System.Convert.ToString(i);
         }
@@ -88,6 +88,14 @@ namespace Com.MyCompany.MyGame
                 if (llego) wallet = wallet + ganancia;
             }
             return wallet;
+        }
+
+        private void Llenar()
+        {
+            double lleno = System.Convert.ToDouble(Contar("pago"));
+            graphPagados.fillAmount = (float)lleno / (float)PhotonNetwork.CurrentRoom.PlayerCount;
+            lleno = System.Convert.ToDouble(Contar("llega"));
+            graphLlegados.fillAmount = (float)lleno / (float)PhotonNetwork.CurrentRoom.PlayerCount;
         }
     }
 }

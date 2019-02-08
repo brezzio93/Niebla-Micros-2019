@@ -78,7 +78,9 @@ namespace Com.MyCompany.MyGame
 
         public void JoinSelectedRoom()
         {
-            PhotonNetwork.JoinRoom(ServerManager.roomSelected);
+            if (ServerManager.roomSelected != null)
+                PhotonNetwork.JoinRoom(ServerManager.roomSelected);
+            else PhotonNetwork.JoinRandomRoom();
         }
     }
 }

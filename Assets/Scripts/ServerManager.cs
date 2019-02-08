@@ -123,7 +123,7 @@ namespace Com.MyCompany.MyGame
                 {"monto",RoomParameters.param.monto},
                 {"precio",RoomParameters.param.precio},
                 {"ganancia",RoomParameters.param.ganancia}
-            }; 
+            };
 
             Debug.Log(PlayerParameters.ChosenName);
 
@@ -181,6 +181,7 @@ namespace Com.MyCompany.MyGame
             }
             if (SceneName == "03 Lobby")
             {
+                Debug.Log(roomList.Count+ " Rooms");
                 ListarSalas(roomList);
             }
         }
@@ -191,7 +192,6 @@ namespace Com.MyCompany.MyGame
         public void ListarSalas(List<RoomInfo> roomList)
         {
             SpriteAtlas sprite = new SpriteAtlas();
-            
 
             Debug.Log(roomList.Count);
 
@@ -212,7 +212,7 @@ namespace Com.MyCompany.MyGame
                 btnlist.SetText(room.Name);
                 string sprite_name = room.CustomProperties["Imagen"] as string;
 
-                btnlist.Img.sprite = sprite.GetSprite(sprite_name);
+                //btnlist.Img.sprite = sprite.GetSprite(sprite_name);
                 //btnlist.Img.sprite = Resources.Load<Sprite>(sprite_name);
 
                 button.transform.SetParent(buttonTemplate.transform.parent, false);

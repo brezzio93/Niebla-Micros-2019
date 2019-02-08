@@ -29,7 +29,7 @@ namespace Com.MyCompany.MyGame
             for (int i = 1; i <= 10; i++)
             {
                 pago.Add("pago" + i, false);
-                llega.Add("llega" + i, false);
+                //llega.Add("llega" + i, false);
                 llega.Add("InBus" + i, false);
             }
             PhotonNetwork.SetPlayerCustomProperties(pago);

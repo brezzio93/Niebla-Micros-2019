@@ -19,9 +19,8 @@ namespace Com.MyCompany.MyGame
 
         private void ResultadosViaje()
         {
-            foreach(Player p in PhotonNetwork.PlayerList)
-                p.CustomProperties["llega" + Jugador.dias] = CalcularLlegada();
-            //PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias] = CalcularLlegada();
+            CalcularLlegada();
+
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]))
             {
                 message.text = "¡Bien, has llegado a tu trabajo!";
@@ -36,30 +35,33 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-        private bool CalcularLlegada()
+        private void CalcularLlegada()
         {
             Debug.Log("CalcularLlegada");
             int evasores = 0;
-            bool paga;
+            bool paga, llega;
             float pFalla, pLlega;
             double x;
 
+            ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
+
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                
                 paga = System.Convert.ToBoolean(p.CustomProperties["pago" + Jugador.dias]);
-                Debug.Log("DIA " + Jugador.dias+" "+ p.NickName+" paga:"+ p.CustomProperties["pago" + Jugador.dias]);
-                if (paga==false) evasores++;
+                if (paga == false) evasores++;
             }
-            Debug.Log(" Evasores"+evasores+"/" + PhotonNetwork.CurrentRoom.PlayerCount);
-            x = ((double)evasores/(double)PhotonNetwork.CurrentRoom.PlayerCount);
-            pFalla = 1-(1/(1+ Mathf.Exp(13*((float)x-0.5f))));
+            Debug.Log(" Evasores" + evasores + " de " + PhotonNetwork.CurrentRoom.PlayerCount);
+            x = ((double)evasores / (double)PhotonNetwork.CurrentRoom.PlayerCount);
+            pFalla = 1 - (1 / (1 + Mathf.Exp(13 * ((float)x - 0.5f))));
             pLlega = 1 - pFalla;
             pLlega = pLlega * 100;
             Debug.Log(pLlega + "%");
+
             if (pLlega < Random.Range(0, 100))
-                return false;
-            return true;
+                llega = false;
+            else llega = true;
+            CustomProps.Add("llega" + Jugador.dias, llega);            
+            PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
         }
     }
 }
