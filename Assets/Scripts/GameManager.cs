@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,7 +52,8 @@ namespace Com.MyCompany.MyGame
         private void Awake()
         {
             if (instance == null) instance = this;
-            else if (instance != this) {
+            else if (instance != this)
+            {
                 Destroy(gameObject);
                 return;
             }
@@ -68,9 +68,7 @@ namespace Com.MyCompany.MyGame
 
         private void Update()
         {
-
         }
-
 
         #endregion MonoBehaviour Callbacks
 
@@ -79,7 +77,21 @@ namespace Com.MyCompany.MyGame
         public void LeaveRoom()
         {
             if (PhotonNetwork.InRoom)
+
                 PhotonNetwork.LeaveRoom();
+        }
+
+        public void FinishGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {
+                    PhotonNetwork.CloseConnection(p);
+                }
+            }
+
+            PhotonNetwork.LeaveRoom();
         }
 
         public void SwitchScenes(int idScene)
