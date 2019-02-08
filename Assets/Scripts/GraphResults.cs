@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ namespace Com.MyCompany.MyGame
     public class GraphResults : MonoBehaviour
     {
         [SerializeField]
-        private Text dia, paga, llega, ganancia, montoInicial, montoActual, pasajes, llegados, next;
+        private Text dia, paga, llega, ganancia, montoInicial, montoActual, pagados, llegados, next;
 
         private Jugador Jugador = new Jugador();
 
@@ -21,13 +22,23 @@ namespace Com.MyCompany.MyGame
                 paga.text = "Si";
             else paga.text = "No";
 
-            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]) == true)
-                llega.text = "Si";
-            else llega.text = "No";
+            pagados.text = Contar("pago") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
 
-            ganancia.text = PhotonNetwork.CurrentRoom.CustomProperties["ganancia"] as string;
-            montoInicial.text = System.Convert.ToString(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
-            montoActual.text = System.Convert.ToString(CalcularBilletera());
+            Debug.Log("Graphs Llega " + PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]);
+            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]) == true)
+            {
+                llega.text = "Si";
+                ganancia.text = PhotonNetwork.CurrentRoom.CustomProperties["ganancia"] as string;
+            }
+            else
+            {
+                llega.text = "No";
+                ganancia.text = "0";
+            }
+
+            llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+            montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.dias - 1));
+            montoActual.text = System.Convert.ToString(CalcularBilletera(Jugador.dias));
 
             if (Jugador.dias == 10) next.text = "Ver Resultados Finales";
             else next.text = System.Convert.ToString("Día " + (Jugador.dias + 1));
@@ -45,21 +56,30 @@ namespace Com.MyCompany.MyGame
                 if (Jugador.dias == 10) SceneManager.LoadScene(10);
                 else
                 {
-                    Jugador.dias++;
                     SceneManager.LoadScene(6);
                 }
             }
         }
 
-        public int CalcularBilletera()
+        private string Contar(string str)
         {
+            int i = 0;
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                Debug.Log(p.NickName+" "+ str + " " + p.CustomProperties[str + Jugador.dias]);
+                if (System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias])) i++;
+            }
+            return System.Convert.ToString(i);
+        }
 
+        public int CalcularBilletera(int dias)
+        {
             bool pago, llego;
             int precio = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["precio"]);
             int ganancia = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["ganancia"]);
             int wallet = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
 
-            for (int i = 1; i <= Jugador.dias; i++)
+            for (int i = 1; i <= dias; i++)
             {
                 pago = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + i]);
                 llego = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + i]);

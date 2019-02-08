@@ -1776,7 +1776,7 @@ GameObject:
   - component: {fileID: 1525940793}
   - component: {fileID: 1525940794}
   m_Layer: 0
-  m_Name: Resultados
+  m_Name: GraphsResults
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1814,7 +1814,7 @@ MonoBehaviour:
   ganancia: {fileID: 633651509}
   montoInicial: {fileID: 2049953078}
   montoActual: {fileID: 1251591177}
-  pasajes: {fileID: 1635684337}
+  pagados: {fileID: 1635684337}
   llegados: {fileID: 1210493816}
   next: {fileID: 1817298586}
 --- !u!1 &1556158956

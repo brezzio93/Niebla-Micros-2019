@@ -867,7 +867,7 @@ GameObject:
   - component: {fileID: 2080557144}
   - component: {fileID: 2080557143}
   m_Layer: 5
-  m_Name: Text Sala
+  m_Name: Text Nombre Sala
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

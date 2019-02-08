@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,11 +28,14 @@ namespace Com.MyCompany.MyGame
         private string CountDonePlayers()
         {
             int playersdone = 0;
-            int maxPlayers = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.PlayerCount);
-
-            for (int i = 0; i < maxPlayers; i++)
+            foreach (Player p in PhotonNetwork.PlayerList)
             {
-                if (PhotonNetwork.PlayerList[i].CustomProperties["InBus"].Equals(true)) playersdone++;
+                Debug.Log(p.NickName + " " + p.CustomProperties["InBus"+Jugador.dias]);
+                bool inBus = System.Convert.ToBoolean(p.CustomProperties["InBus" + Jugador.dias]);
+                if (p.CustomProperties["InBus" + Jugador.dias].Equals(true))
+                {
+                    playersdone++;
+                }
             }
             return System.Convert.ToString(playersdone);
         }
@@ -40,14 +44,8 @@ namespace Com.MyCompany.MyGame
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.LocalPlayer.CustomProperties["llega"+Jugador.dias]=CalcularLlegada();
                 manager.SwitchScenes(8);
             }
-        }
-
-        private bool CalcularLlegada()
-        {
-            return true;
         }
     }
 }

@@ -13,8 +13,6 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text nombreSala;
 
-        
-
         private RoomParameters parameters = new RoomParameters();
 
         private Scene currentScene;

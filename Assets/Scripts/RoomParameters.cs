@@ -1,16 +1,14 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
 {
     [RequireComponent(typeof(InputField))]
     public class RoomParameters : MonoBehaviour
     {
-
         [SerializeField]
         private InputField monto;
 
@@ -89,7 +87,7 @@ namespace Com.MyCompany.MyGame
                     MaxPlayers = System.Convert.ToByte(cantidad),
                     IsVisible = true,
                 });
-                
+
                 SwitchScenes(5);
             }
         }
@@ -98,6 +96,5 @@ namespace Com.MyCompany.MyGame
         {
             SceneManager.LoadScene(idScene);
         }
-
     }
 }

@@ -20,7 +20,7 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text saldo;
 
-        public static int dias = 1;
+        public static int dias = 0;
         private float probabilidad;
 
         private bool[] pago, llego;
@@ -30,7 +30,9 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
-            PhotonNetwork.LocalPlayer.CustomProperties["InBus"] = false;
+            dias++;
+            PhotonNetwork.LocalPlayer.CustomProperties["InBus" + dias] = false;
+            Debug.Log("Inici Dia " + dias + ", " + PhotonNetwork.LocalPlayer.NickName+" InBus: " + System.Convert.ToString(PhotonNetwork.LocalPlayer.CustomProperties["InBus" + dias]));
             if (dias == 11)
             {
                 SceneManager.LoadScene(0);
@@ -45,7 +47,7 @@ namespace Com.MyCompany.MyGame
 
             t_dias.text = "Día " + System.Convert.ToString(dias);
             saldo.text = System.Convert.ToString(billetera);
-            pasaje.text = System.Convert.ToString(precio);
+            pasaje.text = System.Convert.ToString(-precio);
         }
 
         // Update is called once per frame
@@ -73,8 +75,10 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void Pagar(bool button)
         {
-            PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias] = button;
-            PhotonNetwork.LocalPlayer.CustomProperties["InBus"] = true;
+            ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
+            CustomProps.Add("pago" + dias, button);
+            CustomProps.Add("InBus" + dias, true);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
 
             if (button) Debug.Log("Se pagó hoy" + PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias]);
             else Debug.Log("No se pagó hoy" + PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias]);
