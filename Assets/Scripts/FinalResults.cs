@@ -11,13 +11,13 @@ namespace Com.MyCompany.MyGame
         private Text nombreSala, pasajes, llegados;
 
         [SerializeField]
-        private Image graphPagados, graphLlegados;
+        private Image graphPagados, graphLlegados, avatar;
 
         // Start is called before the first frame update
         private void Start()
         {
             Llenar();
-
+            
             nombreSala.text = PhotonNetwork.CurrentRoom.Name;
             pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
             llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
@@ -26,6 +26,19 @@ namespace Com.MyCompany.MyGame
         // Update is called once per frame
         private void Update()
         {
+            CargarSprite();
+        }
+
+        private void CargarSprite()
+        {
+            foreach (Sprite sprite in GameManager.instance.Avatars)
+            {
+                if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
+                {
+                    avatar.sprite = sprite;
+                    avatar.gameObject.SetActive(true);
+                }
+            }
         }
 
         private void Llenar()

@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ namespace Com.MyCompany.MyGame
         private Scene currentScene;
         public static string SceneName;
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
+
+        public List<Sprite> Avatars = new List<Sprite>();
 
         public static GameManager instance = null;
 

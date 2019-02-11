@@ -8,10 +8,10 @@ namespace Com.MyCompany.MyGame
     public class RoomInfoDisplay : MonoBehaviour
     {
         [SerializeField]
-        private Text jugadores;
+        private Text jugadores, nombreSala;
 
         [SerializeField]
-        private Text nombreSala;
+        private Image SpriteDueño;
 
         private RoomParameters parameters = new RoomParameters();
 
@@ -28,11 +28,21 @@ namespace Com.MyCompany.MyGame
         // Update is called once per frame
         private void Update()
         {
+            //Debug.Log("Avatar " + PhotonNetwork.CurrentRoom.Name);
             if (SceneName == "05 Espera")
             {
                 if (PhotonNetwork.InRoom)
                 {
-                    nombreSala.text = "Sala: " + PhotonNetwork.CurrentRoom.Name;
+                    foreach (Sprite sprite in GameManager.instance.Avatars)
+                    {
+                        if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
+                        {
+                            SpriteDueño.sprite = sprite;
+                            SpriteDueño.gameObject.SetActive(true);
+                        }
+                    }
+
+                    nombreSala.text = "Sala de: " + PhotonNetwork.CurrentRoom.Name;
                     PlayersInRoom();
                 }
             }
