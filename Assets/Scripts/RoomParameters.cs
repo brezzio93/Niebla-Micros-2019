@@ -46,7 +46,7 @@ namespace Com.MyCompany.MyGame
         // Use this for initialization
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
 
         public void setGetInputs()
@@ -69,7 +69,7 @@ namespace Com.MyCompany.MyGame
             CustomProps["monto"] = param.monto;
             CustomProps["precio"] = param.precio;
             CustomProps["ganancia"] = param.ganancia;
-            CustomProps["Imagen"] = PhotonNetwork.MasterClient.CustomProperties["Avatar"];
+            CustomProps["Imagen"] = PhotonNetwork.MasterClient.CustomProperties["Imagen"];
             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomProps);
         }
 

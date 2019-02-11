@@ -37,7 +37,7 @@ namespace Com.MyCompany.MyGame
 
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
             //CustomProps["InBus"] = false;
-            CustomProps["Avatar"] = ChosenName;
+            CustomProps["Imagen"] = ChosenName;
             PhotonNetwork.SetPlayerCustomProperties(CustomProps);
         }
 
