@@ -90,9 +90,8 @@ namespace Com.MyCompany.MyGame
 
                 // #Critical
                 // Load the Room Level.
-                //PhotonNetwork.LoadLevel("Room for 1");
-                //PhotonNetwork.LoadLevel("03 Crear Sala");
-                PhotonNetwork.LoadLevel("Sala");
+
+                //PhotonNetwork.LoadLevel("Sala");
             }
         }
 

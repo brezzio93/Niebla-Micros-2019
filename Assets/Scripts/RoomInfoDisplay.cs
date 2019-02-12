@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +15,11 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Image SpriteDueño;
 
+        [SerializeField]
+        private GameObject SpriteJugadoresTemplate;
+
+        private List<GameObject> buttons;
+
         private RoomParameters parameters = new RoomParameters();
 
         private Scene currentScene;
@@ -23,6 +30,7 @@ namespace Com.MyCompany.MyGame
         {
             currentScene = SceneManager.GetActiveScene();
             SceneName = currentScene.name;
+            buttons = new List<GameObject>();
         }
 
         // Update is called once per frame
@@ -42,7 +50,7 @@ namespace Com.MyCompany.MyGame
                         }
                     }
 
-                    nombreSala.text = "Sala de: " + PhotonNetwork.CurrentRoom.Name;
+                    nombreSala.text = PhotonNetwork.CurrentRoom.Name;
                     PlayersInRoom();
                 }
             }
@@ -56,12 +64,8 @@ namespace Com.MyCompany.MyGame
             int i = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.PlayerCount);
             jugadores.text = "Jugadores Conectados:\n" + System.Convert.ToString(PhotonNetwork.CurrentRoom.PlayerCount)
                                 + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
-            while (i != 0)
-            {
-                i--;
-                Debug.Log("Players in Room: " + PhotonNetwork.PlayerList[i].NickName);
-            }
         }
+
 
         /// <summary>
         /// El host actualiza los parametros de la sala y comienza el juego

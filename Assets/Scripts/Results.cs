@@ -8,15 +8,15 @@ namespace Com.MyCompany.MyGame
     public class Results : MonoBehaviour
     {
         [SerializeField]
-        private Text dia, message, ganancia;
+        private Text dia, message, ganancia, obtenidoPlainText;
 
         [SerializeField]
-        private Image avatar;
+        private Image placeholder, avatar, bus, panel;
 
         // Start is called before the first frame update
         private void Start()
         {
-            dia.text = System.Convert.ToString(Jugador.dias);
+            dia.text = "Día " + System.Convert.ToString(Jugador.dias);
             ResultadosViaje();
         }
 
@@ -27,16 +27,25 @@ namespace Com.MyCompany.MyGame
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]))
             {
                 nombreSprite = NombreSprite(0);
-                CargarSprite(nombreSprite);
+                CargarSprite(avatar, nombreSprite);
+                CargarSprite(bus, "atlas_2_8");
+
                 message.text = "¡Bien, has llegado a tu trabajo!";
+
                 message.color = Color.green;
                 ganancia.gameObject.SetActive(true);
                 ganancia.text = PhotonNetwork.CurrentRoom.CustomProperties["ganancia"] as string;
             }
             else
             {
+                obtenidoPlainText.gameObject.SetActive(false);
+                panel.gameObject.SetActive(false);
                 nombreSprite = NombreSprite(1);
-                CargarSprite(nombreSprite);
+                CargarSprite(avatar, nombreSprite);
+                CargarSprite(bus, "atlas_2_7");
+                placeholder.transform.Translate(Vector3.right * 200);
+                avatar.transform.Translate(Vector3.right * 200);
+
                 message.text = "¡Oh no, tu micro se averió!";
                 message.color = Color.red;
             }
@@ -62,13 +71,14 @@ namespace Com.MyCompany.MyGame
             return name;
         }
 
-        private void CargarSprite(string nombreSprite)
+        private void CargarSprite(Image image, string nombreSprite)
         {
             foreach (Sprite sprite in GameManager.instance.Avatars)
             {
                 if (sprite.name == nombreSprite)
                 {
-                    avatar.sprite = sprite;
+                    image.sprite = sprite;
+                    image.gameObject.SetActive(true);
                 }
             }
         }

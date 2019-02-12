@@ -20,9 +20,6 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private GameObject buttonTemplate;
 
-        [SerializeField]
-        private Image avatar;
-
         private List<GameObject> buttons;
         public static string roomSelected;
         public static bool createRoom;
@@ -191,7 +188,7 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void ListarSalas(List<RoomInfo> roomList)
         {
-            SpriteAtlas sprite = new SpriteAtlas();
+            
 
             Debug.Log(roomList.Count);
 
@@ -211,6 +208,14 @@ namespace Com.MyCompany.MyGame
                 button.SetActive(true);
                 btnlist.SetText(room.Name);
                 string sprite_name = room.CustomProperties["Imagen"] as string;
+
+                foreach (Sprite sprite in GameManager.instance.Avatars)
+                {
+                    if (sprite.name == sprite_name)
+                    {
+                        btnlist.Img.sprite = sprite;
+                    }
+                }
 
                 //btnlist.Img.sprite = sprite.GetSprite(sprite_name);
                 //btnlist.Img.sprite = Resources.Load<Sprite>(sprite_name);
