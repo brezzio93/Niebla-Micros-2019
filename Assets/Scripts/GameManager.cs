@@ -12,8 +12,7 @@ namespace Com.MyCompany.MyGame
     {
         private ServerManager server = new ServerManager();
         private RoomParameters parameters = new RoomParameters();
-        private Scene currentScene;
-        public static string SceneName;
+        
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
         public List<Sprite> Avatars = new List<Sprite>();
@@ -82,6 +81,14 @@ namespace Com.MyCompany.MyGame
         }
 
         #endregion Struct AvatarFaces
+
+        private Scene currentScene;
+        public static string SceneName;
+
+        public Scene GetCurrentScene()
+        {
+            return SceneManager.GetActiveScene();
+        }
 
         #region Photon Callbacks
 
@@ -181,6 +188,7 @@ namespace Com.MyCompany.MyGame
 
         public void FinishGame()
         {
+            Jugador.dias = 0;
             if (PhotonNetwork.IsMasterClient)
             {
                 foreach (Player p in PhotonNetwork.PlayerList)

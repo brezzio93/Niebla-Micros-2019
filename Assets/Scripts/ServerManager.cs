@@ -228,9 +228,6 @@ namespace Com.MyCompany.MyGame
                     }
                 }
 
-                //btnlist.Img.sprite = sprite.GetSprite(sprite_name);
-                //btnlist.Img.sprite = Resources.Load<Sprite>(sprite_name);
-
                 button.transform.SetParent(buttonTemplate.transform.parent, false);
                 buttons.Add(button.gameObject);
             }
