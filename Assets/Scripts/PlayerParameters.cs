@@ -22,21 +22,18 @@ namespace Com.MyCompany.MyGame
 
         public void SetPlayerProperties()
         {
-            Debug.Log(ChosenName);
 
             ExitGames.Client.Photon.Hashtable pago = new ExitGames.Client.Photon.Hashtable();
             ExitGames.Client.Photon.Hashtable llega = new ExitGames.Client.Photon.Hashtable();
             for (int i = 1; i <= 10; i++)
             {
                 pago.Add("pago" + i, false);
-                //llega.Add("llega" + i, false);
-                llega.Add("InBus" + i, false);
             }
             PhotonNetwork.SetPlayerCustomProperties(pago);
             PhotonNetwork.SetPlayerCustomProperties(llega);
 
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
-            //CustomProps["InBus"] = false;
+            
             CustomProps["Imagen"] = ChosenName;
             PhotonNetwork.SetPlayerCustomProperties(CustomProps);
         }

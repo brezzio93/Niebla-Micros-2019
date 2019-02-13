@@ -1,7 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
@@ -19,6 +18,7 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
+            //PhotonNetwork.AutomaticallySyncScene = true;
             dia.text = System.Convert.ToString("Día " + Jugador.dias);
 
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + Jugador.dias]) == true)
@@ -51,11 +51,7 @@ namespace Com.MyCompany.MyGame
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                if (Jugador.dias == 10) SceneManager.LoadScene(10);
-                else
-                {
-                    SceneManager.LoadScene(6);
-                }
+                GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoDia, null, ReceiverGroup.All);
             }
         }
 

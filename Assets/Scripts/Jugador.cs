@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,8 +8,6 @@ namespace Com.MyCompany.MyGame
 {
     public class Jugador : MonoBehaviourPunCallbacks
     {
-        private GameManager manager = new GameManager();
-
         public static int billetera;
 
         [SerializeField]
@@ -30,9 +29,9 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
+            PhotonNetwork.AutomaticallySyncScene = false;
             dias++;
-            PhotonNetwork.LocalPlayer.CustomProperties["InBus" + dias] = false;
-            Debug.Log("Inici Dia " + dias + ", " + PhotonNetwork.LocalPlayer.NickName+" InBus: " + System.Convert.ToString(PhotonNetwork.LocalPlayer.CustomProperties["InBus" + dias]));
+
             if (dias == 11)
             {
                 SceneManager.LoadScene(0);
@@ -66,7 +65,8 @@ namespace Com.MyCompany.MyGame
             if (dias <= 10)
             {
                 Pagar(button);
-                manager.SwitchScenes(7);
+                GameManager.instance.SwitchScenes(7);
+
             }
         }
 
@@ -75,13 +75,11 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void Pagar(bool button)
         {
+            GameManager.LevantarEventos(GameManager.CodigoEventosJuego.JugadorJuega, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.MasterClient);
+
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
             CustomProps.Add("pago" + dias, button);
-            CustomProps.Add("InBus" + dias, true);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
-
-            if (button) Debug.Log("Se pagó hoy" + PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias]);
-            else Debug.Log("No se pagó hoy" + PhotonNetwork.LocalPlayer.CustomProperties["pago" + dias]);
         }
 
         public int CalcularBilletera()

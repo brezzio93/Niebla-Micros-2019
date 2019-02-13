@@ -1,5 +1,4 @@
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,29 +14,29 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
+            GameManager.instance.SeJugo += Instance_SeJugo;
+            jugadores.text = "";
+        }
+
+        private void Instance_SeJugo(string nickname)
+        {
+            //throw new System.NotImplementedException();
+            //
         }
 
         // Update is called once per frame
         private void Update()
         {
-            jugadores.text = CountDonePlayers() + " de " + PhotonNetwork.PlayerList.Length;
+            if (PhotonNetwork.IsMasterClient)
+                jugadores.text = string.Format("{0} de {1}", CountDonePlayers(), GameManager.instance.JugadoresEnSala.Count);
         }
 
-        private string CountDonePlayers()
+        private int CountDonePlayers()
         {
-            int playersdone = 0;
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                Debug.Log(p.NickName + " " + p.CustomProperties["InBus" + Jugador.dias]);
+            int playersdone = GameManager.instance.JugadoresEnSala.Count - GameManager.instance.JugadoresJugados.Count;
+            Debug.LogFormat("{0}-{1}", GameManager.instance.JugadoresEnSala.Count, GameManager.instance.JugadoresJugados.Count);
 
-                bool inBus = System.Convert.ToBoolean(p.CustomProperties["InBus" + Jugador.dias]);
-
-                if (p.CustomProperties["InBus" + Jugador.dias].Equals(true))
-                {
-                    playersdone++;
-                }
-            }
-            return System.Convert.ToString(playersdone);
+            return playersdone;
         }
 
         public void TerminarDia()

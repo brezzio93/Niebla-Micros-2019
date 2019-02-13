@@ -36,7 +36,6 @@ namespace Com.MyCompany.MyGame
         // Update is called once per frame
         private void Update()
         {
-            //Debug.Log("Avatar " + PhotonNetwork.CurrentRoom.Name);
             if (SceneName == "05 Espera")
             {
                 if (PhotonNetwork.InRoom)
@@ -66,7 +65,6 @@ namespace Com.MyCompany.MyGame
                                 + "/" + PhotonNetwork.CurrentRoom.MaxPlayers;
         }
 
-
         /// <summary>
         /// El host actualiza los parametros de la sala y comienza el juego
         /// </summary>
@@ -74,20 +72,20 @@ namespace Com.MyCompany.MyGame
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                //parameters.SetRoomProperties();
-                //Debug.Log("Monto (Sala): " + PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
-                LoadArena();
+                GameManager.instance.JugadoresEnSala.Clear();
+
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {
+                    GameManager.instance.JugadoresEnSala.Add(p.NickName);
+                }
+                GameManager.instance.JugadoresJugados.AddRange(GameManager.instance.JugadoresEnSala);
+                LoadArena(6);
             }
         }
 
-        private void LoadArena()
+        private void LoadArena(int scene)
         {
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-            }
-            Debug.LogFormat("PhotonNetwork : Player on the Room : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-            PhotonNetwork.LoadLevel("06 Sala");
+            PhotonNetwork.LoadLevel(scene);
         }
 
         public void JoinSelectedRoom()

@@ -39,10 +39,6 @@ namespace Com.MyCompany.MyGame
             server.GetRoomName(myTextString);            
         }
 
-        public void JoinRoom()
-        {
-            Debug.Log("Joining Room "+myTextString);
-            //buttonControl.JoinSelectedRoom(myTextString);
-        }
+
     }
 }

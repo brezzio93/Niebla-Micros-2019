@@ -1,7 +1,5 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
@@ -10,16 +8,7 @@ namespace Com.MyCompany.MyGame
     public class RoomParameters : MonoBehaviour
     {
         [SerializeField]
-        private InputField monto;
-
-        [SerializeField]
-        private InputField precio;
-
-        [SerializeField]
-        private InputField ganancia;
-
-        [SerializeField]
-        private InputField cantidad;
+        private InputField monto, precio, ganancia, cantidad;
 
         [SerializeField]
         private Text Warning;
@@ -71,30 +60,6 @@ namespace Com.MyCompany.MyGame
             CustomProps["ganancia"] = param.ganancia;
             CustomProps["Imagen"] = PhotonNetwork.MasterClient.CustomProperties["Imagen"];
             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomProps);
-        }
-
-        /// <summary>
-        /// Se crea la sala con los parametros ingresados por el Host
-        ///  </summary>
-        public void CrearSala()
-        {
-            Debug.Log("CrearSala()");
-            int cantidad = System.Convert.ToInt32(param.cantidad);
-            if (cantidad <= 20)
-            {
-                PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName, new RoomOptions
-                {
-                    MaxPlayers = System.Convert.ToByte(cantidad),
-                    IsVisible = true,
-                });
-
-                SwitchScenes(5);
-            }
-        }
-
-        public void SwitchScenes(int idScene)
-        {
-            SceneManager.LoadScene(idScene);
         }
     }
 }

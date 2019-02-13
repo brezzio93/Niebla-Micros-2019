@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44658017, g: 0.49641502, b: 0.57482153, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -534,7 +534,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2069763361}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1183,6 +1183,47 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[0].happy
+      value: 
+      objectReference: {fileID: 21300000, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[0].sad
+      value: 
+      objectReference: {fileID: 21300002, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[1].happy
+      value: 
+      objectReference: {fileID: 21300004, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[1].sad
+      value: 
+      objectReference: {fileID: 21300006, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[2].happy
+      value: 
+      objectReference: {fileID: 21300008, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
+    - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
+        type: 3}
+      propertyPath: caras.Array.data[2].sad
+      value: 
+      objectReference: {fileID: 21300010, guid: c47ad2ce2eb15224cbcaad460dbd4406,
+        type: 3}
     - target: {fileID: 4081004900350410, guid: fb352a14a943bc249a4f06b856ef4796, type: 3}
       propertyPath: m_LocalPosition.x
       value: 963.41034

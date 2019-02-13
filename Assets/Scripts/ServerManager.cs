@@ -3,8 +3,6 @@ using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.U2D;
-using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
 {
@@ -45,6 +43,24 @@ namespace Com.MyCompany.MyGame
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(0);
+        }
+
+        public override void OnCreatedRoom()
+        {
+            base.OnCreatedRoom();
+            SwitchScenes(5);
+        }
+
+        public override void OnJoinedRoom()
+        {
+            base.OnJoinedRoom();
+            SwitchScenes(5);
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            PhotonNetwork.AddCallbackTarget(this);
         }
 
         public override void OnPlayerEnteredRoom(Player other)
@@ -88,7 +104,6 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void CreateOrJoin()
         {
-            Debug.Log(PlayerParameters.ChosenName);
 
             if (PlayerParameters.ChosenName != null)
             {
@@ -109,7 +124,6 @@ namespace Com.MyCompany.MyGame
         {
             Debug.Log("CrearSala()");
             int cantidad = System.Convert.ToInt32(RoomParameters.param.cantidad);
-            Debug.Log(RoomParameters.param.cantidad);
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.IsOpen = true;
             roomOptions.IsVisible = true;
@@ -122,24 +136,23 @@ namespace Com.MyCompany.MyGame
                 {"ganancia",RoomParameters.param.ganancia}
             };
 
-            Debug.Log(PlayerParameters.ChosenName);
-
             if (cantidad <= 20)
             {
+                foreach(string room in GameManager.instance.RoomList)
+                {
+                    if(room==PhotonNetwork.LocalPlayer.NickName)
+                    {
+                        PhotonNetwork.JoinRoom(room);
+                        return;
+                    }
+                }
+
                 PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName, roomOptions);
-                SwitchScenes(5);
+                
                 //parameters.SetRoomProperties();
             }
         }
 
-        public void test()
-        {
-            if (PhotonNetwork.InRoom)
-            {
-                string str = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
-                Debug.Log(str);
-            }
-        }
 
         public void GetRoomName(string textString)
         {
@@ -158,7 +171,7 @@ namespace Com.MyCompany.MyGame
                     if (cachedRoomList.ContainsKey(info.Name))
                     {
                         cachedRoomList.Remove(info.Name);
-                        roomName.Remove(info.Name);
+                        GameManager.instance.RoomList.Remove(info.Name);
                     }
 
                     continue;
@@ -173,12 +186,12 @@ namespace Com.MyCompany.MyGame
                 else
                 {
                     cachedRoomList.Add(info.Name, info);
-                    roomName.Add(info.Name);
+                    GameManager.instance.RoomList.Add(info.Name);
                 }
             }
             if (SceneName == "03 Lobby")
             {
-                Debug.Log(roomList.Count+ " Rooms");
+                Debug.Log(roomList.Count + " Rooms");
                 ListarSalas(roomList);
             }
         }
@@ -188,8 +201,6 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void ListarSalas(List<RoomInfo> roomList)
         {
-            
-
             Debug.Log(roomList.Count);
 
             if (buttons.Count > 0)

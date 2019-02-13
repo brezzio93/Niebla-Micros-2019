@@ -8,37 +8,71 @@ namespace Com.MyCompany.MyGame
     public class SpriteControl : MonoBehaviour
     {
         [SerializeField]
-        private GameObject playerTemplate;
+        private JugadoresEnEspera playerTemplate;
 
-        private List<GameObject> buttons;
+        private List<JugadoresEnEspera> buttons;
 
         // Start is called before the first frame update
         private void Start()
         {
-            buttons = new List<GameObject>();            
+            buttons = new List<JugadoresEnEspera>();
+
+            GameManager.instance.AlEntrarJugador += Instance_AlEntrarJugador;
+
+            InstanciarBotones();
         }
 
-        private void Update()
+        private void Instance_AlEntrarJugador(Player obj)
         {
-            ListarJugadores();
+            //throw new System.NotImplementedException();
+
+            foreach (JugadoresEnEspera button in buttons)
+            {
+                if (!button.asignado)
+                {
+                    button.ConstruirAvatar(obj.CustomProperties["Imagen"] as string);
+
+                    break;
+                }
+            }
+        }
+
+        public void InstanciarBotones()
+        {
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers - 1; i++)
+            {
+                JugadoresEnEspera button = Instantiate(playerTemplate) as JugadoresEnEspera;
+                button.gameObject.SetActive(true);
+                button.transform.SetParent(playerTemplate.transform.parent, false);
+                buttons.Add(button);
+            }
         }
 
         public void ListarJugadores()
         {
-            if (buttons.Count > 0)
-            {
-                foreach (GameObject button in buttons)
-                    Destroy(button.gameObject);
-            }
-            buttons.Clear();
+            Player[] playerNoHost = PhotonNetwork.PlayerList;
 
-            foreach (Player p in PhotonNetwork.PlayerListOthers)
-            {
-                GameObject button = Instantiate(playerTemplate) as GameObject;
-                button.SetActive(true);
+            List<Player> PlayerList = new List<Player>();
 
-                button.transform.SetParent(playerTemplate.transform.parent, false);
-                buttons.Add(button.gameObject);
+            for (int i = 0; i < playerNoHost.Length; i++)
+
+                PlayerList.Add(playerNoHost[i]);
+
+            PlayerList.Remove(PhotonNetwork.MasterClient);
+
+            //if (buttons.Count > 0)
+            //{
+            //    foreach (JugadoresEnEspera button in buttons)
+            //        Destroy(button.gameObject);
+            //}
+            //buttons.Clear();
+
+            foreach (JugadoresEnEspera button in buttons)
+            {
+                //foreach (Player p in PlayerList)
+                //{
+                //    Sprite sprite = GameManager.instance.Avatars.FirstOrDefault(s => s.name == (p.CustomProperties["Imagen"] as string));
+                //}
             }
         }
     }
