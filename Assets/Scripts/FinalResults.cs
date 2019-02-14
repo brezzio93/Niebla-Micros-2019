@@ -12,6 +12,9 @@ namespace Com.MyCompany.MyGame
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
+        
+        [SerializeField]
+        private gameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
 
         [SerializeField]
         private GameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
