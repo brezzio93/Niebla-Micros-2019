@@ -44,6 +44,9 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Se llenan los gráficos de torta
+        /// </summary>
         private void Llenar()
         {
             double lleno = System.Convert.ToDouble(Contar("pago"));
@@ -52,6 +55,11 @@ namespace Com.MyCompany.MyGame
             graphLlegados.fillAmount = (float)lleno / (float)(PhotonNetwork.CurrentRoom.PlayerCount * 10);
         }
 
+        /// <summary>
+        /// Se cuenta cuantos jugadores han pagado/llegado a lo largo de los 10 días
+        /// </summary>
+        /// <param name="str">"paga/llega"</param>
+        /// <returns>Cantidad de jugadores que han llegado/pagado</returns>
         private string Contar(string str)
         {
             int cantidad = 0;
@@ -64,7 +72,6 @@ namespace Com.MyCompany.MyGame
                     if (test) cantidad++;
                 }
             }
-
             return System.Convert.ToString(cantidad);
         }
     }

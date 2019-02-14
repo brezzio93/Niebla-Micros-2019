@@ -11,13 +11,7 @@ namespace Com.MyCompany.MyGame
         public static int billetera;
 
         [SerializeField]
-        private Text t_dias;
-
-        [SerializeField]
-        private Text pasaje;
-
-        [SerializeField]
-        private Text saldo;
+        private Text t_dias, pasaje, saldo;
 
         private float probabilidad;
 
@@ -25,12 +19,13 @@ namespace Com.MyCompany.MyGame
         private int evasores = 0;
         private int precio, ganancia, monto_inicial;
 
-        public static int dias =0;
+        public static int dias = 0;
 
         // Start is called before the first frame update
         private void Start()
         {
             PhotonNetwork.AutomaticallySyncScene = false;
+
             dias++;
 
             if (dias == 11)
@@ -42,7 +37,7 @@ namespace Com.MyCompany.MyGame
             ganancia = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["ganancia"]);
             monto_inicial = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
 
-            if (billetera == 0) billetera = monto_inicial;
+            if (dias==1) billetera = monto_inicial;
             else billetera = CalcularBilletera();
 
             t_dias.text = "Día " + System.Convert.ToString(dias);
@@ -82,6 +77,10 @@ namespace Com.MyCompany.MyGame
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
         }
 
+        /// <summary>
+        /// Revisa los custom properties de pago/llegada para añadir fondos a la billetera
+        /// </summary>
+        /// <returns>retorna el monto actual de la billetera del jugador</returns>
         public int CalcularBilletera()
         {
             bool pago, llego;

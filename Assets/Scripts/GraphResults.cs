@@ -17,16 +17,18 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             //PhotonNetwork.AutomaticallySyncScene = true;
-            dia.text = System.Convert.ToString("Día " + Jugador.dias);
+            InicializarTexto();
+        }
 
+        /// <summary>
+        /// Se inicializan todos los valores de todos los objetos Text 
+        /// </summary>
+        private void InicializarTexto()
+        {
+            dia.text = System.Convert.ToString("Día " + Jugador.dias);
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + Jugador.dias]) == true)
                 paga.text = "Si";
             else paga.text = "No";
-
-            pagados.text = Contar("pago") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
-            llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
-            Llenar();
-
             if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]) == true)
             {
                 llega.text = "Si";
@@ -37,6 +39,9 @@ namespace Com.MyCompany.MyGame
                 llega.text = "No";
                 ganancia.text = "0";
             }
+            pagados.text = Contar("pago") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+            llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+            Llenar();
 
             montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.dias - 1));
             montoActual.text = System.Convert.ToString(CalcularBilletera(Jugador.dias));
@@ -45,6 +50,9 @@ namespace Com.MyCompany.MyGame
             else next.text = System.Convert.ToString("Día " + (Jugador.dias + 1));
         }
 
+        /// <summary>
+        /// El host de la sala llama al evento NuevoDia
+        /// </summary>
         public void DiaSiguiente()
         {
             if (PhotonNetwork.IsMasterClient)
@@ -53,19 +61,29 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Se cuentan a los jugadores que han jugado hasta el momento
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         private string Contar(string str)
         {
             int i = 0;
             bool test;
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                //Debug.LogFormat("Día {0}:{1} {2}, {3}", Jugador.dias, p.NickName, str, p.CustomProperties[str + Jugador.dias]);                
+                //Debug.LogFormat("Día {0}:{1} {2}, {3}", Jugador.dias, p.NickName, str, p.CustomProperties[str + Jugador.dias]);
                 test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias]);
                 if (test) i++;
             }
             return System.Convert.ToString(i);
         }
 
+        /// <summary>
+        /// Se calcula la billetera del jugador local hasta el día actual
+        /// </summary>
+        /// <param name="dias"></param>
+        /// <returns></returns>
         public int CalcularBilletera(int dias)
         {
             bool pago, llego;
@@ -84,6 +102,9 @@ namespace Com.MyCompany.MyGame
             return wallet;
         }
 
+        /// <summary>
+        /// Se llenan los gráficos de torta
+        /// </summary>
         private void Llenar()
         {
             double lleno = System.Convert.ToDouble(Contar("pago"));

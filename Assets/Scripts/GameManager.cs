@@ -15,9 +15,9 @@ namespace Com.MyCompany.MyGame
 
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
-        public List<Sprite> Avatars = new List<Sprite>();
-
         public static GameManager instance = null;
+
+        public List<Sprite> Avatars = new List<Sprite>();
 
         [HideInInspector]
         public List<string> JugadoresEnSala = new List<string>();
@@ -43,18 +43,18 @@ namespace Com.MyCompany.MyGame
             NuevoJuego = 4
         }
 
-        #endregion Eventos
-
         public enum colorAvatar
         {
             rojo = 1,
             azul = 2,
-            amarillo=3,
-            naranja=4,
-            verde=5,
-            purpura=6,
-            rosa=7
+            amarillo = 3,
+            naranja = 4,
+            verde = 5,
+            purpura = 6,
+            rosa = 7
         }
+
+        #endregion Eventos
 
         #region Struct AvatarFaces
 
@@ -91,7 +91,6 @@ namespace Com.MyCompany.MyGame
         #endregion Struct AvatarFaces
 
         private Scene currentScene;
-        public static string SceneName;
 
         public Scene GetCurrentScene()
         {
@@ -116,15 +115,10 @@ namespace Com.MyCompany.MyGame
         {
             base.OnJoinedRoom();
             //if (AlEntrarJugador != null)
-            //{
             //    AlEntrarJugador(PhotonNetwork.LocalPlayer);
-            //}
             //SwitchScenes(5);
         }
 
-        /// <summary>
-        /// Called when the local player left the room. We need to load the launcher scene.
-        /// </summary>
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(0);
@@ -176,7 +170,6 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             currentScene = SceneManager.GetActiveScene();
-            SceneName = currentScene.name;
         }
 
         private void Update()
@@ -190,19 +183,20 @@ namespace Com.MyCompany.MyGame
         public void LeaveRoom()
         {
             if (PhotonNetwork.InRoom)
-
                 PhotonNetwork.LeaveRoom();
         }
 
+        /// <summary>
+        /// Saca a los jugadores de la sesión actual y luego abandona el juego
+        /// </summary>
         public void FinishGame()
         {
-
             if (PhotonNetwork.IsMasterClient)
             {
                 foreach (Player p in PhotonNetwork.PlayerList)
                 {
                     PhotonNetwork.CloseConnection(p);
-                }                
+                }
             }
             PhotonNetwork.LeaveRoom();
         }
@@ -238,6 +232,7 @@ namespace Com.MyCompany.MyGame
             Debug.LogFormat("OnEvent(): {0}, {1}", codigoEventos, photonEvent.CustomData);
             switch (codigoEventos)
             {
+                //Este caso cuenta a los jugadores que han tomado el bus al inicio del día
                 case CodigoEventosJuego.JugadorJuega:
                     string JugadorNick = (string)photonEvent.CustomData;
                     if (SeJugo != null)
@@ -248,10 +243,12 @@ namespace Com.MyCompany.MyGame
 
                     break;
 
+                //Carga la escena de llegada una vez que todos los jugadores toman el bus
                 case CodigoEventosJuego.EsperarBus:
                     SceneManager.LoadScene(8);
                     break;
-
+                
+                //Se carga la escena 6 al terminar el día, si se está en el último día se muestran los resultados finales
                 case CodigoEventosJuego.NuevoDia:
                     JugadoresJugados.Clear();
                     JugadoresJugados.AddRange(JugadoresEnSala);
@@ -264,6 +261,7 @@ namespace Com.MyCompany.MyGame
 
                     break;
 
+                //Se reinician los datos del juego al comenzar un juego nuevo
                 case CodigoEventosJuego.NuevoJuego:
 
                     break;
@@ -273,6 +271,10 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Se remueven a los jugadores que han jugado al comienzo del día
+        /// </summary>
+        /// <param name="nickname">nickname del jugador que ha jugado</param>
         private void ConfirmarJugadores(string nickname)
         {
             if (JugadoresJugados.Contains(nickname))
@@ -286,6 +288,12 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Se encapsula el metodo RaiseEvent
+        /// </summary>
+        /// <param name="eventosJuego"></param>
+        /// <param name="param"></param>
+        /// <param name="target"></param>
         public static void LevantarEventos(CodigoEventosJuego eventosJuego, object param, ReceiverGroup target)
         {
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = target };
