@@ -1566,6 +1566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTemplate: {fileID: 1902100207}
+  placeholder: {fileID: 21300094, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
 --- !u!1 &2010391537
 GameObject:
   m_ObjectHideFlags: 0

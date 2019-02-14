@@ -12,8 +12,7 @@ namespace Com.MyCompany.MyGame
         private Dictionary<string, RoomInfo> cachedRoomList;
         private RoomParameters parameters = new RoomParameters();
 
-        private Scene currentScene;
-        private string SceneName;
+        private string currentScene;
 
         [SerializeField]
         private GameObject buttonTemplate;
@@ -30,8 +29,7 @@ namespace Com.MyCompany.MyGame
 
         private void Start()
         {
-            currentScene = SceneManager.GetActiveScene();
-            SceneName = currentScene.name;
+            currentScene = GameManager.instance.GetCurrentScene().name;
             buttons = new List<GameObject>();
         }
 
@@ -104,7 +102,6 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void CreateOrJoin()
         {
-
             if (PlayerParameters.ChosenName != null)
             {
                 if (PhotonNetwork.IsConnected)
@@ -122,6 +119,7 @@ namespace Com.MyCompany.MyGame
         ///  </summary>
         public void CrearSala()
         {
+            int id_Sala = Random.Range(0, 9999);
             Debug.Log("CrearSala()");
             int cantidad = System.Convert.ToInt32(RoomParameters.param.cantidad);
             RoomOptions roomOptions = new RoomOptions();
@@ -138,21 +136,21 @@ namespace Com.MyCompany.MyGame
 
             if (cantidad <= 20)
             {
-                foreach(string room in GameManager.instance.RoomList)
-                {
-                    if(room==PhotonNetwork.LocalPlayer.NickName)
-                    {
-                        PhotonNetwork.JoinRoom(room);
-                        return;
-                    }
-                }
-
-                PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName, roomOptions);
                 
+                //foreach (string room in GameManager.instance.RoomList)
+                //{
+                //    if (room == PhotonNetwork.LocalPlayer.NickName)
+                //    {
+                //        PhotonNetwork.JoinRoom(room);
+                //        return;
+                //    }
+                //}
+
+                PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName+" #"+id_Sala, roomOptions);
+
                 //parameters.SetRoomProperties();
             }
         }
-
 
         public void GetRoomName(string textString)
         {
@@ -189,7 +187,7 @@ namespace Com.MyCompany.MyGame
                     GameManager.instance.RoomList.Add(info.Name);
                 }
             }
-            if (SceneName == "03 Lobby")
+            if (currentScene == "03 Lobby")
             {
                 Debug.Log(roomList.Count + " Rooms");
                 ListarSalas(roomList);

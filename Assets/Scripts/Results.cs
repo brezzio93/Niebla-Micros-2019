@@ -13,6 +13,8 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Image placeholder, avatar, bus, panel;
 
+        
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -24,10 +26,12 @@ namespace Com.MyCompany.MyGame
         {
             CalcularLlegada();
             string nombreSprite;
-            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]))
+            bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]);
+            if (llega)
             {
                 nombreSprite = NombreSprite(0);
-                CargarSprite(avatar, nombreSprite);
+                //CargarSprite(avatar, nombreSprite);
+                ConstruirAvatar(nombreSprite,llega);
                 CargarSprite(bus, "atlas_2_8");
 
                 message.text = "¡Bien, has llegado a tu trabajo!";
@@ -41,7 +45,8 @@ namespace Com.MyCompany.MyGame
                 obtenidoPlainText.gameObject.SetActive(false);
                 panel.gameObject.SetActive(false);
                 nombreSprite = NombreSprite(1);
-                CargarSprite(avatar, nombreSprite);
+                //CargarSprite(avatar, nombreSprite);
+                ConstruirAvatar(nombreSprite, llega);
                 CargarSprite(bus, "atlas_2_7");
                 placeholder.transform.Translate(Vector3.right * 200);
                 avatar.transform.Translate(Vector3.right * 200);
@@ -73,6 +78,7 @@ namespace Com.MyCompany.MyGame
 
         private void CargarSprite(Image image, string nombreSprite)
         {
+            
             foreach (Sprite sprite in GameManager.instance.Avatars)
             {
                 if (sprite.name == nombreSprite)
@@ -81,6 +87,17 @@ namespace Com.MyCompany.MyGame
                     image.gameObject.SetActive(true);
                 }
             }
+        }
+
+        public void ConstruirAvatar(string nombreSprite, bool llegada)
+        {
+            var faces = GameManager.instance.GetAvatarFaces(nombreSprite);
+            if (llegada)
+                avatar.sprite = faces.happy;
+            else
+                avatar.sprite = faces.sad;
+            avatar.gameObject.SetActive(true);
+
         }
 
         private void CalcularLlegada()

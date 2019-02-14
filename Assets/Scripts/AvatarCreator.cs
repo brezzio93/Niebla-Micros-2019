@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
 {
-    public class JugadoresEnEspera : MonoBehaviour
+    public class AvatarCreator : MonoBehaviour
     {
         public bool asignado;
         public Image Avatar;
@@ -18,8 +18,16 @@ namespace Com.MyCompany.MyGame
             var faces =GameManager.instance.GetAvatarFaces(nombreSprite);
             Avatar.gameObject.SetActive(true);
             Avatar.sprite = faces.happy;
+            asignado = true;            
+        }
+        public void ConstruirAvatar(string nombreSprite, bool llegada)
+        {
+            var faces = GameManager.instance.GetAvatarFaces(nombreSprite);
+            Avatar.gameObject.SetActive(true);
+            if (llegada)
+                Avatar.sprite = faces.happy;
+            else Avatar.sprite = faces.sad;
             asignado = true;
-            
         }
     }
 }

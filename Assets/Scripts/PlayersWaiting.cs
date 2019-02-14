@@ -20,8 +20,7 @@ namespace Com.MyCompany.MyGame
 
         private void Instance_SeJugo(string nickname)
         {
-            //throw new System.NotImplementedException();
-            //
+            //throw new System.NotImplementedException();            
         }
 
         // Update is called once per frame

@@ -93,64 +93,65 @@ MonoBehaviour:
   JugadoresEnSala: []
   JugadoresJugados: []
   RoomList: []
+  dias: 0
   caras:
   - happy: {fileID: 21300000, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300002, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     color: 1
   - happy: {fileID: 21300004, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300006, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 6
   - happy: {fileID: 21300008, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300010, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 5
   - happy: {fileID: 21300012, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300014, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 2
   - happy: {fileID: 21300016, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300018, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 1
   - happy: {fileID: 21300020, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300022, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 5
   - happy: {fileID: 21300024, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300026, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 2
   - happy: {fileID: 21300028, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300030, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 3
   - happy: {fileID: 21300032, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300034, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 3
   - happy: {fileID: 21300036, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300038, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 6
   - happy: {fileID: 21300040, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300046, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 5
   - happy: {fileID: 21300052, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300054, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 1
   - happy: {fileID: 21300056, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300058, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 6
   - happy: {fileID: 21300060, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300062, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 3
   - happy: {fileID: 21300064, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300066, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 2
   - happy: {fileID: 21300068, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300070, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 6
   - happy: {fileID: 21300072, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300074, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 7
   - happy: {fileID: 21300076, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300078, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 3
   - happy: {fileID: 21300080, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300082, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 5
   - happy: {fileID: 21300084, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300086, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-    color: 0
+    color: 6
