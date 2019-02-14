@@ -8,10 +8,13 @@ namespace Com.MyCompany.MyGame
     public class FinalResults : MonoBehaviour
     {
         [SerializeField]
-        private Text nombreSala, pasajes, llegados;
+        private Text nombreSala, pasajes, llegados, nombreGraficoLinea;
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
+        
+        [SerializeField]
+        private gameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
 
         // Start is called before the first frame update
         private void Start()
