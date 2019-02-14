@@ -67,5 +67,156 @@ namespace Com.MyCompany.MyGame
 
             return System.Convert.ToString(cantidad);
         }
+        /*public void MostrarGrafico(nombre usuario clickeado, color usuario clickeado)
+    {
+        rojo=1;
+        azul=2;
+        amarillo=3;
+        naranjo=4;
+        verde=5;
+        purpura=6;
+        rosa=7;
+        Al clickear avatar de usuario:
+            if (coloravatar==rojo){
+                if (rojo.enabled==true){
+                    azul.enabled=true;
+                    amarillo.enabled=true;
+                    naranjo.enabled=true;
+                    verde.enabled=true;
+                    purpura.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=true;
+                    azul.enabled=false;
+                    amarillo.enabled=false;
+                    naranjo.enabled=false;
+                    verde.enabled=false;
+                    purpura.enabled=false;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                }
+            }
+            elseif (coloravatar=azul){
+                if (azul.enabled==true){
+                    rojo.enabled=true;
+                    amarillo.enabled=true;
+                    naranjo.enabled=true;
+                    verde.enabled=true;
+                    purpura.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=true;
+                    amarillo.enabled=false;
+                    naranjo.enabled=false;
+                    verde.enabled=false;
+                    purpura.enabled=false;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+            elseif (coloravatar=amarillo){
+                if (amarillo.enabled==true){
+                    rojo.enabled=true;
+                    azul.enabled=true;
+                    naranjo.enabled=true;
+                    verde.enabled=true;
+                    purpura.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=false;
+                    amarillo.enabled=true;
+                    naranjo.enabled=false;
+                    verde.enabled=false;
+                    purpura.enabled=false;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+            elseif (coloravatar=naranjo){
+                if (naranjo.enabled==true){
+                    rojo.enabled=true;
+                    amarillo.enabled=true;
+                    azul.enabled=true;
+                    verde.enabled=true;
+                    purpura.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=false;
+                    amarillo.enabled=false;
+                    naranjo.enabled=true;
+                    verde.enabled=false;
+                    purpura.enabled=false;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+            elseif (coloravatar=verde){
+                if (verde.enabled==true){
+                    rojo.enabled=true;
+                    amarillo.enabled=true;
+                    naranjo.enabled=true;
+                    azul.enabled=true;
+                    purpura.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=false;
+                    amarillo.enabled=false;
+                    naranjo.enabled=false;
+                    verde.enabled=true;
+                    purpura.enabled=false;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+            elseif (coloravatar=purpura){
+                if (purpura.enabled==true){
+                    rojo.enabled=true;
+                    amarillo.enabled=true;
+                    naranjo.enabled=true;
+                    verde.enabled=true;
+                    azul.enabled=true;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=false;
+                    amarillo.enabled=false;
+                    naranjo.enabled=false;
+                    verde.enabled=false;
+                    purpura.enabled=true;
+                    rosa.enabled=false;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+            elseif (coloravatar=rosa){
+                if (rosa.enabled==true){
+                    rojo.enabled=true;
+                    amarillo.enabled=true;
+                    naranjo.enabled=true;
+                    verde.enabled=true;
+                    purpura.enabled=true;
+                    azul.enabled=true;
+                    nombreGraficoLinea= " ";
+                else
+                    rojo.enabled=false;
+                    azul.enabled=false;
+                    amarillo.enabled=false;
+                    naranjo.enabled=false;
+                    verde.enabled=false;
+                    purpura.enabled=false;
+                    rosa.enabled=true;
+                    nombreGraficoLinea= nombre usuario seleccionado;
+                    }
+            }
+      }*/
     }
 }
