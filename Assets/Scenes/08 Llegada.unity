@@ -1223,6 +1223,9 @@ MonoBehaviour:
   avatar: {fileID: 654253792}
   bus: {fileID: 1166600841}
   panel: {fileID: 342765410}
+  Buses:
+  - {fileID: 21300014, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
+  - {fileID: 21300016, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
 --- !u!1 &1519551725
 GameObject:
   m_ObjectHideFlags: 0

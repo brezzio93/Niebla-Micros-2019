@@ -13,10 +13,7 @@ namespace Com.MyCompany.MyGame
         private Text jugadores, nombreSala;
 
         [SerializeField]
-        private Image SpriteDueño;
-
-        [SerializeField]
-        private GameObject SpriteJugadoresTemplate;
+        private Image SpriteDuenno;
 
         private List<GameObject> buttons;
 
@@ -42,16 +39,13 @@ namespace Com.MyCompany.MyGame
                 if (PhotonNetwork.InRoom)
                 {
                     string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
-                    foreach (Sprite sprite in GameManager.instance.Avatars)
-                    {
-                        if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
-                        {
-                            SpriteDueño.sprite = sprite;
-                            SpriteDueño.gameObject.SetActive(true);
-                        }
-                    }
-
                     nombreSala.text = sala[0];
+                    Debug.LogFormat("Sprite name: {0}", PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string);
+                    string sprite_name = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
+                    var face = GameManager.instance.GetAvatarFaces(sprite_name);
+
+                    SpriteDuenno.sprite = face.happy;
+                    SpriteDuenno.gameObject.SetActive(true);
 
                     PlayersInRoom();
                 }
@@ -76,7 +70,7 @@ namespace Com.MyCompany.MyGame
             if (PhotonNetwork.IsMasterClient)
             {
                 GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoJuego, null, ReceiverGroup.All);
-                
+
                 GameManager.instance.JugadoresEnSala.Clear();
 
                 foreach (Player p in PhotonNetwork.PlayerList)

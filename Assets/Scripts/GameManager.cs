@@ -17,7 +17,7 @@ namespace Com.MyCompany.MyGame
 
         public static GameManager instance = null;
 
-        public List<Sprite> Avatars = new List<Sprite>();
+        //public List<Sprite> Avatars = new List<Sprite>();
 
         [HideInInspector]
         public List<string> JugadoresEnSala = new List<string>();
@@ -56,13 +56,15 @@ namespace Com.MyCompany.MyGame
 
         #endregion Eventos
 
+
+
         #region Struct AvatarFaces
 
         [Serializable]
         public struct AvatarFaces
         {
             public Sprite happy, sad;
-            public colorAvatar color;
+            public Color color;
         }
 
         public List<AvatarFaces> caras;

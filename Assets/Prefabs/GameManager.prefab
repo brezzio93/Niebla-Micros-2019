@@ -43,53 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f2835a40696564e8fe945ab212ddbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avatars:
-  - {fileID: 21300000, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300002, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300004, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300006, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300008, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300010, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300012, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300014, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300016, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300018, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300020, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300022, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300024, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300026, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300028, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300030, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300032, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300034, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300036, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300038, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300040, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300042, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300044, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300046, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300048, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300050, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300052, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300054, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300056, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300058, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300060, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300062, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300064, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300066, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300068, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300070, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300072, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300074, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300076, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300078, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300080, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300082, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300084, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300086, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
-  - {fileID: 21300014, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
-  - {fileID: 21300016, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
   JugadoresEnSala: []
   JugadoresJugados: []
   RoomList: []
@@ -154,4 +107,7 @@ MonoBehaviour:
     color: 5
   - happy: {fileID: 21300084, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300086, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
+    color: 6
+  - happy: {fileID: 21300014, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
+    sad: {fileID: 21300016, guid: b6a42c6d0879c3b44bd612570a363b42, type: 3}
     color: 6

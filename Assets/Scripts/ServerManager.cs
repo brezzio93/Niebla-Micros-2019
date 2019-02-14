@@ -136,7 +136,6 @@ namespace Com.MyCompany.MyGame
 
             if (cantidad <= 20)
             {
-                
                 //foreach (string room in GameManager.instance.RoomList)
                 //{
                 //    if (room == PhotonNetwork.LocalPlayer.NickName)
@@ -146,7 +145,7 @@ namespace Com.MyCompany.MyGame
                 //    }
                 //}
 
-                PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName+" #"+id_Sala, roomOptions);
+                PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName + " #" + id_Sala, roomOptions);
 
                 //parameters.SetRoomProperties();
             }
@@ -206,6 +205,7 @@ namespace Com.MyCompany.MyGame
                 foreach (GameObject button in buttons)
                     Destroy(button.gameObject);
             }
+
             buttons.Clear();
 
             foreach (var room in roomList)
@@ -217,14 +217,9 @@ namespace Com.MyCompany.MyGame
                 button.SetActive(true);
                 btnlist.SetText(room.Name);
                 string sprite_name = room.CustomProperties["Imagen"] as string;
+                var face = GameManager.instance.GetAvatarFaces(sprite_name);
 
-                foreach (Sprite sprite in GameManager.instance.Avatars)
-                {
-                    if (sprite.name == sprite_name)
-                    {
-                        btnlist.Img.sprite = sprite;
-                    }
-                }
+                btnlist.Img.sprite = face.happy;
 
                 button.transform.SetParent(buttonTemplate.transform.parent, false);
                 buttons.Add(button.gameObject);

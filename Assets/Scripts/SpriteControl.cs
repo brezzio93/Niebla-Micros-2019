@@ -44,7 +44,7 @@ namespace Com.MyCompany.MyGame
         private void Instance_AlEntrarJugador(Player obj)
         {
             //throw new System.NotImplementedException();
-
+            Debug.Log(obj.CustomProperties["Imagen"] as string);
             foreach (AvatarCreator button in buttons)
             {
                 if (!button.asignado)

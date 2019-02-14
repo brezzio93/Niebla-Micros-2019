@@ -8,10 +8,13 @@ namespace Com.MyCompany.MyGame
     public class FinalResults : MonoBehaviour
     {
         [SerializeField]
-        private Text nombreSala, pasajes, llegados;
+        private Text nombreSala, pasajes, llegados, nombreGraficoLinea;
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
+
+        [SerializeField]
+        private GameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
 
         // Start is called before the first frame update
         private void Start()
@@ -31,17 +34,11 @@ namespace Com.MyCompany.MyGame
 
         private void CargarSprite()
         {
-            foreach (Sprite sprite in GameManager.instance.Avatars)
-            {
-                if (sprite != null)
-                {
-                    if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
-                    {
-                        avatar.sprite = sprite;
-                        avatar.gameObject.SetActive(true);
-                    }
-                }
-            }
+            string sprite_name = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
+            var face = GameManager.instance.GetAvatarFaces(sprite_name);
+
+            avatar.sprite = face.happy;
+            avatar.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -74,6 +71,11 @@ namespace Com.MyCompany.MyGame
             }
             return System.Convert.ToString(cantidad);
         }
+
+        public void MostrarGrafico()
+        {
+        }
+
         /*public void MostrarGrafico(nombre usuario clickeado, color usuario clickeado)
     {
         rojo=1;

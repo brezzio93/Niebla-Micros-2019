@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,8 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Image placeholder, avatar, bus, panel;
 
-        
+        [SerializeField]
+        private List<Sprite> Buses;
 
         // Start is called before the first frame update
         private void Start()
@@ -31,7 +33,7 @@ namespace Com.MyCompany.MyGame
             {
                 nombreSprite = NombreSprite(0);
                 //CargarSprite(avatar, nombreSprite);
-                ConstruirAvatar(nombreSprite,llega);
+                ConstruirAvatar(nombreSprite, llega);
                 CargarSprite(bus, "atlas_2_8");
 
                 message.text = "¡Bien, has llegado a tu trabajo!";
@@ -78,8 +80,7 @@ namespace Com.MyCompany.MyGame
 
         private void CargarSprite(Image image, string nombreSprite)
         {
-            
-            foreach (Sprite sprite in GameManager.instance.Avatars)
+            foreach (Sprite sprite in Buses)
             {
                 if (sprite.name == nombreSprite)
                 {
@@ -97,7 +98,6 @@ namespace Com.MyCompany.MyGame
             else
                 avatar.sprite = faces.sad;
             avatar.gameObject.SetActive(true);
-
         }
 
         private void CalcularLlegada()
