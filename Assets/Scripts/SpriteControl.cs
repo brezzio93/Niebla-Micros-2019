@@ -8,16 +8,16 @@ namespace Com.MyCompany.MyGame
     public class SpriteControl : MonoBehaviour
     {
         [SerializeField]
-        private JugadoresEnEspera playerTemplate;
+        private AvatarCreator playerTemplate;
 
-        private List<JugadoresEnEspera> buttons;
+        private List<AvatarCreator> buttons;
 
         private string currentScene;
 
         // Start is called before the first frame update
         private void Start()
         {
-            buttons = new List<JugadoresEnEspera>();
+            buttons = new List<AvatarCreator>();
 
             currentScene = GameManager.instance.GetCurrentScene().name;
             if (currentScene == "05 Espera")
@@ -28,7 +28,7 @@ namespace Com.MyCompany.MyGame
 
             if (currentScene == "10 Resultados Finales")
             {
-                GameManager.instance.AlEntrarJugador -= Instance_AlEntrarJugador;
+                //GameManager.instance.AlEntrarJugador -= Instance_AlEntrarJugador;
                 ListarJugadores();
             }
         }
@@ -36,7 +36,7 @@ namespace Com.MyCompany.MyGame
         private void Update()
         {
             if (currentScene == "05 Espera")
-                ListarJugadoresEspera();
+                if (!PhotonNetwork.IsMasterClient) ListarJugadoresEspera();
             if (currentScene == "10 Resultados Finales")
                 ListarJugadores();
         }
@@ -45,7 +45,7 @@ namespace Com.MyCompany.MyGame
         {
             //throw new System.NotImplementedException();
 
-            foreach (JugadoresEnEspera button in buttons)
+            foreach (AvatarCreator button in buttons)
             {
                 if (!button.asignado)
                 {
@@ -60,7 +60,7 @@ namespace Com.MyCompany.MyGame
         {
             for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers - 1; i++)
             {
-                JugadoresEnEspera button = Instantiate(playerTemplate) as JugadoresEnEspera;
+                AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
                 button.transform.SetParent(playerTemplate.transform.parent, false);
                 buttons.Add(button);
@@ -71,28 +71,18 @@ namespace Com.MyCompany.MyGame
         {
             if (buttons.Count > 0)
             {
-                foreach (JugadoresEnEspera button in buttons)
+                foreach (AvatarCreator button in buttons)
                     Destroy(button.gameObject);
             }
             buttons.Clear();
 
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                JugadoresEnEspera button = Instantiate(playerTemplate) as JugadoresEnEspera;
+                AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
-
                 button.ConstruirAvatar(p.CustomProperties["Imagen"] as string);
-
                 button.transform.SetParent(playerTemplate.transform.parent, false);
                 buttons.Add(button);
-            }
-
-            foreach (JugadoresEnEspera button in buttons)
-            {
-                //foreach (Player p in PlayerList)
-                //{
-                //    Sprite sprite = GameManager.instance.Avatars.FirstOrDefault(s => s.name == (p.CustomProperties["Imagen"] as string));
-                //}
             }
         }
 
@@ -105,14 +95,14 @@ namespace Com.MyCompany.MyGame
 
             if (buttons.Count > 0)
             {
-                foreach (JugadoresEnEspera button in buttons)
+                foreach (AvatarCreator button in buttons)
                     Destroy(button.gameObject);
             }
             buttons.Clear();
 
             foreach (Player p in PlayerList)
             {
-                JugadoresEnEspera button = Instantiate(playerTemplate) as JugadoresEnEspera;
+                AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
 
                 button.ConstruirAvatar(p.CustomProperties["Imagen"] as string);
@@ -121,7 +111,7 @@ namespace Com.MyCompany.MyGame
                 buttons.Add(button);
             }
 
-            foreach (JugadoresEnEspera button in buttons)
+            foreach (AvatarCreator button in buttons)
             {
                 //foreach (Player p in PlayerList)
                 //{

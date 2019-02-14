@@ -12,7 +12,7 @@ namespace Com.MyCompany.MyGame
     {
         private ServerManager server = new ServerManager();
         private RoomParameters parameters = new RoomParameters();
-        
+
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
         public List<Sprite> Avatars = new List<Sprite>();
@@ -27,6 +27,8 @@ namespace Com.MyCompany.MyGame
 
         public List<string> RoomList = new List<string>();
 
+        public int dias;
+
         #region Eventos
 
         public event Action<string> SeJugo;
@@ -37,15 +39,21 @@ namespace Com.MyCompany.MyGame
         {
             JugadorJuega = 1,
             EsperarBus = 2,
-            NuevoDia = 3
+            NuevoDia = 3,
+            NuevoJuego = 4
         }
 
-        #endregion
+        #endregion Eventos
 
         public enum colorAvatar
         {
             rojo = 1,
             azul = 2,
+            amarillo=3,
+            naranja=4,
+            verde=5,
+            purpura=6,
+            rosa=7
         }
 
         #region Struct AvatarFaces
@@ -107,10 +115,10 @@ namespace Com.MyCompany.MyGame
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-            if (AlEntrarJugador != null)
-            {
-                AlEntrarJugador(PhotonNetwork.LocalPlayer);
-            }
+            //if (AlEntrarJugador != null)
+            //{
+            //    AlEntrarJugador(PhotonNetwork.LocalPlayer);
+            //}
             //SwitchScenes(5);
         }
 
@@ -188,14 +196,13 @@ namespace Com.MyCompany.MyGame
 
         public void FinishGame()
         {
-            Jugador.dias = 0;
+
             if (PhotonNetwork.IsMasterClient)
             {
                 foreach (Player p in PhotonNetwork.PlayerList)
                 {
                     PhotonNetwork.CloseConnection(p);
-                }
-                PhotonNetwork.DestroyAll();
+                }                
             }
             PhotonNetwork.LeaveRoom();
         }
@@ -254,6 +261,10 @@ namespace Com.MyCompany.MyGame
                     {
                         SceneManager.LoadScene(6);
                     }
+
+                    break;
+
+                case CodigoEventosJuego.NuevoJuego:
 
                     break;
 

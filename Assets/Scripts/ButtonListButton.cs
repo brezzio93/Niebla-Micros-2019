@@ -25,18 +25,20 @@ namespace Com.MyCompany.MyGame
 
         }
 
-        private string myTextString;
+        private string nombreSalaCompleto;
+        private string[] nombreDuenno;
 
 
         public void SetText(string str)
         {
-            myTextString = str;
-            myText.text = str;
+            nombreSalaCompleto = str;
+            nombreDuenno= str.Split('#');
+            myText.text = nombreDuenno[0];
         }
 
         public void GetRoomName()
         {
-            server.GetRoomName(myTextString);            
+            server.GetRoomName(nombreSalaCompleto);            
         }
 
 

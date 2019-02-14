@@ -17,8 +17,8 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             Llenar();
-            
-            nombreSala.text = PhotonNetwork.CurrentRoom.Name;
+            string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
+            nombreSala.text = sala[0];
             pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
             llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
         }
@@ -33,10 +33,13 @@ namespace Com.MyCompany.MyGame
         {
             foreach (Sprite sprite in GameManager.instance.Avatars)
             {
-                if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
+                if (sprite != null)
                 {
-                    avatar.sprite = sprite;
-                    avatar.gameObject.SetActive(true);
+                    if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
+                    {
+                        avatar.sprite = sprite;
+                        avatar.gameObject.SetActive(true);
+                    }
                 }
             }
         }

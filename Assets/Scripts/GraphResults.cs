@@ -13,8 +13,6 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Image graphPagados, graphLlegados;
 
-        private Jugador Jugador = new Jugador();
-
         // Start is called before the first frame update
         private void Start()
         {
@@ -61,7 +59,7 @@ namespace Com.MyCompany.MyGame
             bool test;
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                Debug.Log("Día" + Jugador.dias + ": " + p.NickName + " " + str + " " + p.CustomProperties[str + Jugador.dias]);
+                //Debug.LogFormat("Día {0}:{1} {2}, {3}", Jugador.dias, p.NickName, str, p.CustomProperties[str + Jugador.dias]);                
                 test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias]);
                 if (test) i++;
             }

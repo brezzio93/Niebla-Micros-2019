@@ -19,12 +19,13 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text saldo;
 
-        public static int dias = 0;
         private float probabilidad;
 
         private bool[] pago, llego;
         private int evasores = 0;
         private int precio, ganancia, monto_inicial;
+
+        public static int dias =0;
 
         // Start is called before the first frame update
         private void Start()
@@ -60,13 +61,12 @@ namespace Com.MyCompany.MyGame
         /// calculos del pasaje de bus
         /// </summary>
         /// <param name="button"> Elección de pagar/no pagar</param>
-        public void OtroDia(bool button)
+        public void TomarBus(bool button)
         {
             if (dias <= 10)
             {
                 Pagar(button);
                 GameManager.instance.SwitchScenes(7);
-
             }
         }
 

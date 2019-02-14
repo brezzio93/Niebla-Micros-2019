@@ -28,6 +28,7 @@ namespace Com.MyCompany.MyGame
         // Use this for initialization
         private void Start()
         {
+            Jugador.dias = 0;
             currentScene = SceneManager.GetActiveScene();
             SceneName = currentScene.name;
             buttons = new List<GameObject>();
@@ -40,6 +41,7 @@ namespace Com.MyCompany.MyGame
             {
                 if (PhotonNetwork.InRoom)
                 {
+                    string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
                     foreach (Sprite sprite in GameManager.instance.Avatars)
                     {
                         if (sprite.name == PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string)
@@ -49,7 +51,8 @@ namespace Com.MyCompany.MyGame
                         }
                     }
 
-                    nombreSala.text = PhotonNetwork.CurrentRoom.Name;
+                    nombreSala.text = sala[0];
+
                     PlayersInRoom();
                 }
             }
@@ -72,6 +75,8 @@ namespace Com.MyCompany.MyGame
         {
             if (PhotonNetwork.IsMasterClient)
             {
+                GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoJuego, null, ReceiverGroup.All);
+                
                 GameManager.instance.JugadoresEnSala.Clear();
 
                 foreach (Player p in PhotonNetwork.PlayerList)
