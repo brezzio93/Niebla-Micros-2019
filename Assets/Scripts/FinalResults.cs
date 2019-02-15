@@ -8,16 +8,15 @@ namespace Com.MyCompany.MyGame
     public class FinalResults : MonoBehaviour
     {
         [SerializeField]
-        private Text nombreSala, pasajes, llegados, nombreGraficoLinea;
+        private Text nombreSala, pasajes, llegados;
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
-        
-        [SerializeField]
-        private gameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
 
         [SerializeField]
-        private GameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
+        private LineRenderer rojo, azul, amarillo, naranjo, verde, purpura, rosa;
+
+        private LineRenderer[] lineas;
 
         // Start is called before the first frame update
         private void Start()
@@ -27,6 +26,27 @@ namespace Com.MyCompany.MyGame
             nombreSala.text = sala[0];
             pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
             llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            //////////////////////////////Comienza mostrando todos los graficos de linea////////////////////////////////////////////////////////
+            lineas = new LineRenderer[7];
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
+            if (PhotonNetwork.CurrentRoom.PlayerCount <= 7)
+            {
+                Debug.Log("algo");
+                int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+                for (int i=0; i < numUsers; i++)
+                {
+
+                    lineas[i].gameObject.SetActive(true);
+                    Debug.Log("algo2");
+                }
+
+            }
         }
 
         // Update is called once per frame
@@ -75,160 +95,98 @@ namespace Com.MyCompany.MyGame
             return System.Convert.ToString(cantidad);
         }
 
-        public void MostrarGrafico()
+        public void GraficoUsuario() //muestra solo el grafico del jugador seleccionado
         {
-        }
+            Debug.Log("algo3");
+            lineas = new LineRenderer[7];
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
+            int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+            int crojo=0, cazul=1, camarillo=2, cnaranjo=3, cverde=4, cpurpura=5, crosa=6;
+            int coloravatar=Random.Range(0, numUsers);            
+            int i;
+            if (coloravatar == crojo) {
 
-        /*public void MostrarGrafico(nombre usuario clickeado, color usuario clickeado)
-    {
-        rojo=1;
-        azul=2;
-        amarillo=3;
-        naranjo=4;
-        verde=5;
-        purpura=6;
-        rosa=7;
-        Al clickear avatar de usuario:
-            if (coloravatar==rojo){
-                if (rojo.enabled==true){
-                    azul.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=true;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[0].gameObject.SetActive(true);
+
+            }
+            else if (coloravatar == cazul) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[1].gameObject.SetActive(true);
+            }
+            else if (coloravatar == camarillo) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[2].gameObject.SetActive(true);
+            }
+            else if (coloravatar == cnaranjo) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[3].gameObject.SetActive(true);
+
+            }
+            else if (coloravatar == cverde) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[4].gameObject.SetActive(true);
+            }
+            else if (coloravatar == cpurpura) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[5].gameObject.SetActive(true);
+            }
+            else if (coloravatar==crosa){
+
+                    for (i = 0; i < numUsers; i++)
+                    {
+                        lineas[i].gameObject.SetActive(false);
+                    }
+                    lineas[6].gameObject.SetActive(true);
                 }
             }
-            elseif (coloravatar=azul){
-                if (azul.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=true;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+        public void MostrarTodos() //muestra los graficos de todos los jugadores juntos
+        {
+            lineas = new LineRenderer[7];
+            int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+            int i;
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
+            for (i = 0; i < numUsers; i++)
+            {
+                lineas[i].gameObject.SetActive(true);
             }
-            elseif (coloravatar=amarillo){
-                if (amarillo.enabled==true){
-                    rojo.enabled=true;
-                    azul.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=true;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
-            }
-            elseif (coloravatar=naranjo){
-                if (naranjo.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    azul.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=true;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
-            }
-            elseif (coloravatar=verde){
-                if (verde.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    azul.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=true;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
-            }
-            elseif (coloravatar=purpura){
-                if (purpura.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    azul.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=true;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
-            }
-            elseif (coloravatar=rosa){
-                if (rosa.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    azul.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
-            }
-      }*/
+            Debug.Log("Funcionan todas");
+        }
     }
 }
+
