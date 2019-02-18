@@ -2498,6 +2498,7 @@ MonoBehaviour:
   next: {fileID: 1817298586}
   graphPagados: {fileID: 1427187504}
   graphLlegados: {fileID: 1702978679}
+  nextDayButton: {fileID: 406607542}
 --- !u!1 &1556158956
 GameObject:
   m_ObjectHideFlags: 0

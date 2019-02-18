@@ -19,16 +19,16 @@ namespace Com.MyCompany.MyGame
         private int evasores = 0;
         private int precio, ganancia, monto_inicial;
 
-        public static int dias = 0;
+        public static int diaActual = 0;
 
         // Start is called before the first frame update
         private void Start()
         {
             PhotonNetwork.AutomaticallySyncScene = false;
 
-            dias++;
+            diaActual++;
 
-            if (dias == 11)
+            if (diaActual == 11)
             {
                 SceneManager.LoadScene(0);
                 PhotonNetwork.LeaveRoom();
@@ -37,10 +37,10 @@ namespace Com.MyCompany.MyGame
             ganancia = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["ganancia"]);
             monto_inicial = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
 
-            if (dias==1) billetera = monto_inicial;
+            if (diaActual==1) billetera = monto_inicial;
             else billetera = CalcularBilletera();
 
-            t_dias.text = "Día " + System.Convert.ToString(dias);
+            t_dias.text = "Día " + System.Convert.ToString(diaActual);
             saldo.text = System.Convert.ToString(billetera);
             pasaje.text = System.Convert.ToString(-precio);
         }
@@ -58,7 +58,7 @@ namespace Com.MyCompany.MyGame
         /// <param name="button"> Elección de pagar/no pagar</param>
         public void TomarBus(bool button)
         {
-            if (dias <= 10)
+            if (diaActual <= GameManager.instance.maxDias)
             {
                 Pagar(button);
                 GameManager.instance.SwitchScenes(7);
@@ -70,10 +70,10 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void Pagar(bool button)
         {
-            GameManager.LevantarEventos(GameManager.CodigoEventosJuego.JugadorJuega, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.MasterClient);
+            GameManager.LevantarEventos(GameManager.CodigoEventosJuego.JugadorJuega, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.All);
 
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
-            CustomProps.Add("pago" + dias, button);
+            CustomProps.Add("pago" + diaActual, button);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
         }
 
@@ -85,7 +85,7 @@ namespace Com.MyCompany.MyGame
         {
             bool pago, llego;
             int wallet = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
-            for (int i = 1; i < dias; i++)
+            for (int i = 1; i < diaActual; i++)
             {
                 pago = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + i]);
                 llego = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + i]);

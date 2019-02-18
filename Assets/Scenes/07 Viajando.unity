@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jugadores: {fileID: 1418534184}
+  mostrarResultadosButton: {fileID: 1557822906}
 --- !u!1 &729396668
 GameObject:
   m_ObjectHideFlags: 0

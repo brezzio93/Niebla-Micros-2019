@@ -20,15 +20,23 @@ namespace Com.MyCompany.MyGame
         // Start is called before the first frame update
         private void Start()
         {
-            dia.text = "Día " + System.Convert.ToString(Jugador.dias);
+            GameManager.instance.SeJugo += Instance_SeJugo;
+
+            PhotonNetwork.AutomaticallySyncScene = false;
+            dia.text = "Día " + System.Convert.ToString(Jugador.diaActual);
             ResultadosViaje();
+        }
+
+        private void Instance_SeJugo(string obj)
+        {
+            //throw new NotImplementedException();
         }
 
         private void ResultadosViaje()
         {
             CalcularLlegada();
             string nombreSprite;
-            bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]);
+            bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.diaActual]);
             if (llega)
             {
                 nombreSprite = NombreSprite(0);
@@ -104,28 +112,56 @@ namespace Com.MyCompany.MyGame
         {
             Debug.Log("CalcularLlegada");
             int evasores = 0;
-            bool paga, llega;
+            bool paga, llega, juega;
             float pFalla, pLlega;
             double x;
 
+            List<string> jugadoresSiJugaron = new List<string>();
+
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
+
+            jugadoresSiJugaron.Clear();
+            jugadoresSiJugaron.AddRange(GameManager.instance.JugadoresEnSala);
+            Debug.Log(GameManager.instance.JugadoresJugados.Count);
+            foreach (var jugador in GameManager.instance.JugadoresJugados)
+            {
+                if (jugadoresSiJugaron.Contains(jugador))
+                    jugadoresSiJugaron.Remove(jugador);
+            }
+            Debug.Log(jugadoresSiJugaron.Count);
+            for (int i = 0; i < jugadoresSiJugaron.Count; i++)
+            {
+                Debug.Log(jugadoresSiJugaron[i]);
+            }
+
+            if (jugadoresSiJugaron.Contains(PhotonNetwork.LocalPlayer.NickName))
+                juega = true;
+            else
+                juega = false;
 
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                paga = System.Convert.ToBoolean(p.CustomProperties["pago" + Jugador.dias]);
+                paga = System.Convert.ToBoolean(p.CustomProperties["pago" + Jugador.diaActual]);
                 if (paga == false) evasores++;
             }
-            Debug.Log(" Evasores" + evasores + " de " + PhotonNetwork.CurrentRoom.PlayerCount);
+            Debug.Log(" Evasores: " + evasores + " de " + PhotonNetwork.CurrentRoom.PlayerCount);
             x = ((double)evasores / (double)PhotonNetwork.CurrentRoom.PlayerCount);
             pFalla = 1 - (1 / (1 + Mathf.Exp(13 * ((float)x - 0.5f))));
             pLlega = 1 - pFalla;
             pLlega = pLlega * 100;
             Debug.Log(pLlega + "%");
 
-            if (pLlega < Random.Range(0, 100))
+            if (pLlega < UnityEngine.Random.Range(0, 100))
                 llega = false;
             else llega = true;
-            CustomProps.Add("llega" + Jugador.dias, llega);
+
+            if (!juega)
+            {
+                Debug.Log(juega);
+                CustomProps.Add("llega" + Jugador.diaActual, false);
+            }
+            else if (juega) CustomProps.Add("llega" + Jugador.diaActual, llega);
+            Debug.Log("Dia " + Jugador.diaActual);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
         }
     }

@@ -1012,6 +1012,7 @@ MonoBehaviour:
   jugadores: {fileID: 205143860}
   nombreSala: {fileID: 2080557143}
   SpriteDuenno: {fileID: 1481006906}
+  comenzarButton: {fileID: 517743993}
 --- !u!4 &1661464535
 Transform:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,18 +10,18 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text jugadores;
 
+        [SerializeField]
+        private Button mostrarResultadosButton;
+
         private GameManager manager = new GameManager();
 
         // Start is called before the first frame update
         private void Start()
         {
-            GameManager.instance.SeJugo += Instance_SeJugo;
             jugadores.text = "";
-        }
 
-        private void Instance_SeJugo(string nickname)
-        {
-            //throw new System.NotImplementedException();            
+            if (!PhotonNetwork.IsMasterClient) mostrarResultadosButton.gameObject.SetActive(false);
+            else mostrarResultadosButton.gameObject.SetActive(true);
         }
 
         // Update is called once per frame
@@ -42,7 +43,8 @@ namespace Com.MyCompany.MyGame
         {
             if (PhotonNetwork.IsMasterClient)
             {
-                manager.SwitchScenes(8);
+                //manager.SwitchScenes(8);
+                GameManager.LevantarEventos(GameManager.CodigoEventosJuego.TerminarEspera, null, ReceiverGroup.All);
             }
         }
     }

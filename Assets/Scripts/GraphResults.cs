@@ -13,23 +13,27 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Image graphPagados, graphLlegados;
 
+        [SerializeField]
+        private Button nextDayButton;
+
         // Start is called before the first frame update
         private void Start()
         {
-            //PhotonNetwork.AutomaticallySyncScene = true;
             InicializarTexto();
+            if (!PhotonNetwork.IsMasterClient) nextDayButton.gameObject.SetActive(false);
+            else nextDayButton.gameObject.SetActive(true);
         }
 
         /// <summary>
-        /// Se inicializan todos los valores de todos los objetos Text 
+        /// Se inicializan todos los valores de todos los objetos Text
         /// </summary>
         private void InicializarTexto()
         {
-            dia.text = System.Convert.ToString("Día " + Jugador.dias);
-            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + Jugador.dias]) == true)
+            dia.text = System.Convert.ToString("Día " + Jugador.diaActual);
+            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + Jugador.diaActual]) == true)
                 paga.text = "Si";
             else paga.text = "No";
-            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.dias]) == true)
+            if (System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.diaActual]) == true)
             {
                 llega.text = "Si";
                 ganancia.text = PhotonNetwork.CurrentRoom.CustomProperties["ganancia"] as string;
@@ -43,11 +47,11 @@ namespace Com.MyCompany.MyGame
             llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
             Llenar();
 
-            montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.dias - 1));
-            montoActual.text = System.Convert.ToString(CalcularBilletera(Jugador.dias));
+            montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.diaActual - 1));
+            montoActual.text = System.Convert.ToString(CalcularBilletera(Jugador.diaActual));
 
-            if (Jugador.dias == 10) next.text = "Ver Resultados Finales";
-            else next.text = System.Convert.ToString("Día " + (Jugador.dias + 1));
+            if (Jugador.diaActual == GameManager.instance.maxDias) next.text = "Ver Resultados Finales";
+            else next.text = System.Convert.ToString("Día " + (Jugador.diaActual + 1));
         }
 
         /// <summary>
@@ -73,7 +77,7 @@ namespace Com.MyCompany.MyGame
             foreach (Player p in PhotonNetwork.PlayerList)
             {
                 //Debug.LogFormat("Día {0}:{1} {2}, {3}", Jugador.dias, p.NickName, str, p.CustomProperties[str + Jugador.dias]);
-                test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.dias]);
+                test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.diaActual]);
                 if (test) i++;
             }
             return System.Convert.ToString(i);

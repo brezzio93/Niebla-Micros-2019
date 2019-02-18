@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +13,9 @@ namespace Com.MyCompany.MyGame
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
-        
-        [SerializeField]
-        private gameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
 
         [SerializeField]
-        private GameObject rojo, azul, amarillo, naranjo, verde, purpura, rosa;
+        private LineRenderer[] lineas;
 
         // Start is called before the first frame update
         private void Start()
@@ -25,8 +23,10 @@ namespace Com.MyCompany.MyGame
             Llenar();
             string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
             nombreSala.text = sala[0];
-            pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
-            llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
+            llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
+            ContarPorcentajes("pago");
+            ContarPorcentajes("llega");
         }
 
         // Update is called once per frame
@@ -50,185 +50,198 @@ namespace Com.MyCompany.MyGame
         private void Llenar()
         {
             double lleno = System.Convert.ToDouble(Contar("pago"));
-            graphPagados.fillAmount = (float)lleno / (float)(PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            graphPagados.fillAmount = (float)lleno / (float)(PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
             lleno = System.Convert.ToDouble(Contar("llega"));
-            graphLlegados.fillAmount = (float)lleno / (float)(PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            graphLlegados.fillAmount = (float)lleno / (float)(PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
         }
 
         /// <summary>
         /// Se cuenta cuantos jugadores han pagado/llegado a lo largo de los 10 días
         /// </summary>
-        /// <param name="str">"paga/llega"</param>
+        /// <param name="opcion">"paga/llega"</param>
         /// <returns>Cantidad de jugadores que han llegado/pagado</returns>
-        private string Contar(string str)
+        private string Contar(string opcion)
         {
             int cantidad = 0;
             bool test;
-            for (int j = 1; j <= Jugador.dias; j++)
+            for (int j = 1; j <= GameManager.instance.maxDias; j++)
             {
                 foreach (Player p in PhotonNetwork.PlayerList)
                 {
-                    test = System.Convert.ToBoolean(p.CustomProperties[str + j]);
+                    test = System.Convert.ToBoolean(p.CustomProperties[opcion + j]);
                     if (test) cantidad++;
                 }
             }
             return System.Convert.ToString(cantidad);
         }
 
-        public void MostrarGrafico()
+        public void ContarPorcentajes(string opcion)
         {
+            int cantidadTotal = 0, cantidad = 0, index = 0;
+            List<int> contados = new List<int>();
+            List<double> contadosPorcentaje = new List<double>();
+            bool test;
+            for (int i = 1; i <= GameManager.instance.maxDias; i++)
+            {
+                cantidad = 0;
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {
+                    test = System.Convert.ToBoolean(p.CustomProperties[opcion + i]);
+                    if (test)
+                        cantidad++;
+                }
+                contados.Add(cantidad);
+            }
+
+            foreach (int contado in contados)
+            {
+                cantidadTotal += contado;
+                contadosPorcentaje.Add((double)contado / (double)PhotonNetwork.CurrentRoom.PlayerCount);
+                Debug.LogFormat("{0} {1}: {2}%", opcion, contado, contadosPorcentaje[index] * 100);
+                index++;
+            }
+            Debug.LogFormat("Total {0}: {1}", cantidadTotal, opcion);
         }
 
-        /*public void MostrarGrafico(nombre usuario clickeado, color usuario clickeado)
-    {
-        rojo=1;
-        azul=2;
-        amarillo=3;
-        naranjo=4;
-        verde=5;
-        purpura=6;
-        rosa=7;
-        Al clickear avatar de usuario:
-            if (coloravatar==rojo){
-                if (rojo.enabled==true){
-                    azul.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
+        public void GraficoUsuario()
+        {
+            Debug.Log("algo3");
+            int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+            int crojo = 0, cazul = 1, camarillo = 2, cnaranjo = 3, cverde = 4, cpurpura = 5, crosa = 6;
+            //lineas = new LineRenderer[7];
+            int coloravatar = Random.Range(0, 7);
+
+            int i;
+            if (coloravatar == crojo)
+            {
+                for (i = 0; i <= 7; i++)
+                {
+                    lineas[i].enabled = false;
+                }
+                lineas[0].enabled = true;
+            }
+            else if (coloravatar == cazul)
+            {
+                if (lineas[1].enabled == true)
+
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
+                    }
+                }
                 else
-                    rojo.enabled=true;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = true;
+                    lineas[2].enabled = false;
+                    lineas[3].enabled = false;
+                    lineas[4].enabled = false;
+                    lineas[5].enabled = false;
+                    lineas[6].enabled = false;
                 }
             }
-            elseif (coloravatar=azul){
-                if (azul.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
-                else
-                    rojo.enabled=false;
-                    azul.enabled=true;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
+            else if (coloravatar == camarillo)
+            {
+                if (lineas[2].enabled == true)
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
                     }
-            }
-            elseif (coloravatar=amarillo){
-                if (amarillo.enabled==true){
-                    rojo.enabled=true;
-                    azul.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
+                }
                 else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=true;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = false;
+                    lineas[2].enabled = true;
+                    lineas[3].enabled = false;
+                    lineas[4].enabled = false;
+                    lineas[5].enabled = false;
+                    lineas[6].enabled = false;
+                }
             }
-            elseif (coloravatar=naranjo){
-                if (naranjo.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    azul.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
+            else if (coloravatar == cnaranjo)
+            {
+                if (lineas[3].enabled == true)
+
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
+                    }
+                }
                 else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=true;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = false;
+                    lineas[2].enabled = false;
+                    lineas[3].enabled = true;
+                    lineas[4].enabled = false;
+                    lineas[5].enabled = false;
+                    lineas[6].enabled = false;
+                }
             }
-            elseif (coloravatar=verde){
-                if (verde.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    azul.enabled=true;
-                    purpura.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
+            else if (coloravatar == cverde)
+            {
+                if (lineas[4].enabled == true)
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
+                    }
+                }
                 else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=true;
-                    purpura.enabled=false;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = false;
+                    lineas[2].enabled = false;
+                    lineas[3].enabled = false;
+                    lineas[4].enabled = true;
+                    lineas[5].enabled = false;
+                    lineas[6].enabled = false;
+                }
             }
-            elseif (coloravatar=purpura){
-                if (purpura.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    azul.enabled=true;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= " ";
+            else if (coloravatar == cpurpura)
+            {
+                if (lineas[5].enabled == true)
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
+                    }
+                }
                 else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=true;
-                    rosa.enabled=false;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = false;
+                    lineas[2].enabled = false;
+                    lineas[3].enabled = false;
+                    lineas[4].enabled = false;
+                    lineas[5].enabled = true;
+                    lineas[6].enabled = false;
+                }
             }
-            elseif (coloravatar=rosa){
-                if (rosa.enabled==true){
-                    rojo.enabled=true;
-                    amarillo.enabled=true;
-                    naranjo.enabled=true;
-                    verde.enabled=true;
-                    purpura.enabled=true;
-                    azul.enabled=true;
-                    nombreGraficoLinea= " ";
+            else if (coloravatar == crosa)
+            {
+                if (lineas[6].enabled == true)
+                {
+                    for (i = 0; i <= numUsers; i++)
+                    {
+                        lineas[i].enabled = true;
+                    }
+                }
                 else
-                    rojo.enabled=false;
-                    azul.enabled=false;
-                    amarillo.enabled=false;
-                    naranjo.enabled=false;
-                    verde.enabled=false;
-                    purpura.enabled=false;
-                    rosa.enabled=true;
-                    nombreGraficoLinea= nombre usuario seleccionado;
-                    }
+                {
+                    lineas[0].enabled = false;
+                    lineas[1].enabled = false;
+                    lineas[2].enabled = false;
+                    lineas[3].enabled = false;
+                    lineas[4].enabled = false;
+                    lineas[5].enabled = false;
+                    lineas[6].enabled = true;
+                }
             }
-      }*/
+        }
     }
 }

@@ -24,8 +24,9 @@ namespace Com.MyCompany.MyGame
         {
 
             ExitGames.Client.Photon.Hashtable pago = new ExitGames.Client.Photon.Hashtable();
-            ExitGames.Client.Photon.Hashtable llega = new ExitGames.Client.Photon.Hashtable();
-            for (int i = 1; i <= 10; i++)
+            ExitGames.Client.Photon.Hashtable llega = new ExitGames.Client.Photon.Hashtable();            
+
+            for (int i = 1; i <= GameManager.instance.maxDias; i++)
             {
                 pago.Add("pago" + i, false);
             }

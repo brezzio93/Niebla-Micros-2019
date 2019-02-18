@@ -17,6 +17,9 @@ namespace Com.MyCompany.MyGame
 
         private List<GameObject> buttons;
 
+        [SerializeField]
+        private Button comenzarButton;
+
         private RoomParameters parameters = new RoomParameters();
 
         private Scene currentScene;
@@ -25,10 +28,15 @@ namespace Com.MyCompany.MyGame
         // Use this for initialization
         private void Start()
         {
-            Jugador.dias = 0;
+            Jugador.diaActual = 0;
             currentScene = SceneManager.GetActiveScene();
             SceneName = currentScene.name;
             buttons = new List<GameObject>();
+            if (SceneName == "05 Espera")
+            {
+                if (!PhotonNetwork.IsMasterClient) comenzarButton.gameObject.SetActive(false);
+                else comenzarButton.gameObject.SetActive(true);
+            }
         }
 
         // Update is called once per frame
@@ -40,7 +48,6 @@ namespace Com.MyCompany.MyGame
                 {
                     string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
                     nombreSala.text = sala[0];
-                    Debug.LogFormat("Sprite name: {0}", PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string);
                     string sprite_name = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
                     var face = GameManager.instance.GetAvatarFaces(sprite_name);
 
@@ -71,13 +78,7 @@ namespace Com.MyCompany.MyGame
             {
                 GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoJuego, null, ReceiverGroup.All);
 
-                GameManager.instance.JugadoresEnSala.Clear();
-
-                foreach (Player p in PhotonNetwork.PlayerList)
-                {
-                    GameManager.instance.JugadoresEnSala.Add(p.NickName);
-                }
-                GameManager.instance.JugadoresJugados.AddRange(GameManager.instance.JugadoresEnSala);
+                
                 LoadArena(6);
             }
         }

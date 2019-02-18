@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Com.MyCompany.MyGame
 {
@@ -25,13 +26,16 @@ namespace Com.MyCompany.MyGame
         [HideInInspector]
         public List<string> JugadoresJugados = new List<string>();
 
+        [HideInInspector]
         public List<string> RoomList = new List<string>();
 
-        public int dias;
+        public int maxDias;
 
         #region Eventos
 
         public event Action<string> SeJugo;
+
+        public event Action<string> NoJugo;
 
         public event Action<Player> AlEntrarJugador;
 
@@ -39,8 +43,9 @@ namespace Com.MyCompany.MyGame
         {
             JugadorJuega = 1,
             EsperarBus = 2,
-            NuevoDia = 3,
-            NuevoJuego = 4
+            TerminarEspera = 3,
+            NuevoDia = 4,
+            NuevoJuego = 5
         }
 
         public enum colorAvatar
@@ -55,8 +60,6 @@ namespace Com.MyCompany.MyGame
         }
 
         #endregion Eventos
-
-
 
         #region Struct AvatarFaces
 
@@ -193,13 +196,6 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void FinishGame()
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                foreach (Player p in PhotonNetwork.PlayerList)
-                {
-                    PhotonNetwork.CloseConnection(p);
-                }
-            }
             PhotonNetwork.LeaveRoom();
         }
 
@@ -231,7 +227,7 @@ namespace Com.MyCompany.MyGame
         public void OnEvent(EventData photonEvent)
         {
             CodigoEventosJuego codigoEventos = (CodigoEventosJuego)photonEvent.Code;
-            Debug.LogFormat("OnEvent(): {0}, {1}", codigoEventos, photonEvent.CustomData);
+            //Debug.LogFormat("OnEvent(): {0}, {1}", codigoEventos, photonEvent.CustomData);
             switch (codigoEventos)
             {
                 //Este caso cuenta a los jugadores que han tomado el bus al inicio del día
@@ -249,12 +245,18 @@ namespace Com.MyCompany.MyGame
                 case CodigoEventosJuego.EsperarBus:
                     SceneManager.LoadScene(8);
                     break;
-                
+                case CodigoEventosJuego.TerminarEspera:
+                    //var jugaron = photonEvent.CustomData;
+                    
+                    //Debug.Log("TerminarEspera "+jugaron);
+                    SceneManager.LoadScene(8);
+                    break;
+
                 //Se carga la escena 6 al terminar el día, si se está en el último día se muestran los resultados finales
                 case CodigoEventosJuego.NuevoDia:
                     JugadoresJugados.Clear();
                     JugadoresJugados.AddRange(JugadoresEnSala);
-                    if (Jugador.dias == 10)
+                    if (Jugador.diaActual == maxDias)
                         SceneManager.LoadScene(10);
                     else
                     {
@@ -265,6 +267,13 @@ namespace Com.MyCompany.MyGame
 
                 //Se reinician los datos del juego al comenzar un juego nuevo
                 case CodigoEventosJuego.NuevoJuego:
+                    JugadoresEnSala.Clear();
+                    JugadoresJugados.Clear();
+                    foreach (Player p in PhotonNetwork.PlayerList)
+                    {
+                        JugadoresEnSala.Add(p.NickName);
+                    }
+                    JugadoresJugados.AddRange(GameManager.instance.JugadoresEnSala);
 
                     break;
 
@@ -284,7 +293,7 @@ namespace Com.MyCompany.MyGame
                 JugadoresJugados.Remove(nickname);
 
                 if (JugadoresJugados.Count == 0)
-                {
+                {                    
                     LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
                 }
             }
