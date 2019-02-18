@@ -9,12 +9,14 @@ namespace Com.MyCompany.MyGame
     public class FinalResults : MonoBehaviour
     {
         [SerializeField]
-        private Text nombreSala, pasajes, llegados, nombreGraficoLinea;
+        private Text nombreSala, pasajes, llegados;
 
         [SerializeField]
         private Image graphPagados, graphLlegados, avatar;
 
         [SerializeField]
+        private LineRenderer rojo, azul, amarillo, naranjo, verde, purpura, rosa;
+
         private LineRenderer[] lineas;
 
         // Start is called before the first frame update
@@ -23,6 +25,29 @@ namespace Com.MyCompany.MyGame
             Llenar();
             string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
             nombreSala.text = sala[0];
+            pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            //////////////////////////////Comienza mostrando todos los graficos de linea////////////////////////////////////////////////////////
+            lineas = new LineRenderer[7];
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
+            if (PhotonNetwork.CurrentRoom.PlayerCount <= 7)
+            {
+                Debug.Log("algo");
+                int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+                for (int i=0; i < numUsers; i++)
+                {
+
+                    lineas[i].gameObject.SetActive(true);
+                    Debug.Log("algo2");
+                }
+
+            }
             pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
             llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
             ContarPorcentajes("pago");
@@ -76,6 +101,7 @@ namespace Com.MyCompany.MyGame
         }
 
         public void ContarPorcentajes(string opcion)
+        public void GraficoUsuario() //muestra solo el grafico del jugador seleccionado
         {
             int cantidadTotal = 0, cantidad = 0, index = 0;
             List<int> contados = new List<int>();
@@ -102,146 +128,96 @@ namespace Com.MyCompany.MyGame
             }
             Debug.LogFormat("Total {0}: {1}", cantidadTotal, opcion);
         }
-
-        public void GraficoUsuario()
-        {
             Debug.Log("algo3");
+            lineas = new LineRenderer[7];
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
             int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
-            int crojo = 0, cazul = 1, camarillo = 2, cnaranjo = 3, cverde = 4, cpurpura = 5, crosa = 6;
-            //lineas = new LineRenderer[7];
-            int coloravatar = Random.Range(0, 7);
-
+            int crojo=0, cazul=1, camarillo=2, cnaranjo=3, cverde=4, cpurpura=5, crosa=6;
+            int coloravatar=Random.Range(0, numUsers);            
             int i;
-            if (coloravatar == crojo)
-            {
-                for (i = 0; i <= 7; i++)
-                {
-                    lineas[i].enabled = false;
-                }
-                lineas[0].enabled = true;
-            }
-            else if (coloravatar == cazul)
-            {
-                if (lineas[1].enabled == true)
+            if (coloravatar == crojo) {
 
+                for (i = 0; i < numUsers; i++)
                 {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
+                    lineas[i].gameObject.SetActive(false);
                 }
-                else
-                {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = true;
-                    lineas[2].enabled = false;
-                    lineas[3].enabled = false;
-                    lineas[4].enabled = false;
-                    lineas[5].enabled = false;
-                    lineas[6].enabled = false;
-                }
-            }
-            else if (coloravatar == camarillo)
-            {
-                if (lineas[2].enabled == true)
-                {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
-                }
-                else
-                {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = false;
-                    lineas[2].enabled = true;
-                    lineas[3].enabled = false;
-                    lineas[4].enabled = false;
-                    lineas[5].enabled = false;
-                    lineas[6].enabled = false;
-                }
-            }
-            else if (coloravatar == cnaranjo)
-            {
-                if (lineas[3].enabled == true)
+                lineas[0].gameObject.SetActive(true);
 
+            }
+            else if (coloravatar == cazul) {
+
+                for (i = 0; i < numUsers; i++)
                 {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
+                    lineas[i].gameObject.SetActive(false);
                 }
-                else
+                lineas[1].gameObject.SetActive(true);
+            }
+            else if (coloravatar == camarillo) {
+
+                for (i = 0; i < numUsers; i++)
                 {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = false;
-                    lineas[2].enabled = false;
-                    lineas[3].enabled = true;
-                    lineas[4].enabled = false;
-                    lineas[5].enabled = false;
-                    lineas[6].enabled = false;
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[2].gameObject.SetActive(true);
+            }
+            else if (coloravatar == cnaranjo) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[3].gameObject.SetActive(true);
+
+            }
+            else if (coloravatar == cverde) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[4].gameObject.SetActive(true);
+            }
+            else if (coloravatar == cpurpura) {
+
+                for (i = 0; i < numUsers; i++)
+                {
+                    lineas[i].gameObject.SetActive(false);
+                }
+                lineas[5].gameObject.SetActive(true);
+            }
+            else if (coloravatar==crosa){
+
+                    for (i = 0; i < numUsers; i++)
+                    {
+                        lineas[i].gameObject.SetActive(false);
+                    }
+                    lineas[6].gameObject.SetActive(true);
                 }
             }
-            else if (coloravatar == cverde)
+        public void MostrarTodos() //muestra los graficos de todos los jugadores juntos
+        {
+            lineas = new LineRenderer[7];
+            int numUsers = PhotonNetwork.CurrentRoom.PlayerCount;
+            int i;
+            lineas[0] = rojo;
+            lineas[1] = azul;
+            lineas[2] = amarillo;
+            lineas[3] = naranjo;
+            lineas[4] = verde;
+            lineas[5] = purpura;
+            lineas[6] = rosa;
+            for (i = 0; i < numUsers; i++)
             {
-                if (lineas[4].enabled == true)
-                {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
-                }
-                else
-                {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = false;
-                    lineas[2].enabled = false;
-                    lineas[3].enabled = false;
-                    lineas[4].enabled = true;
-                    lineas[5].enabled = false;
-                    lineas[6].enabled = false;
-                }
+                lineas[i].gameObject.SetActive(true);
             }
-            else if (coloravatar == cpurpura)
-            {
-                if (lineas[5].enabled == true)
-                {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
-                }
-                else
-                {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = false;
-                    lineas[2].enabled = false;
-                    lineas[3].enabled = false;
-                    lineas[4].enabled = false;
-                    lineas[5].enabled = true;
-                    lineas[6].enabled = false;
-                }
-            }
-            else if (coloravatar == crosa)
-            {
-                if (lineas[6].enabled == true)
-                {
-                    for (i = 0; i <= numUsers; i++)
-                    {
-                        lineas[i].enabled = true;
-                    }
-                }
-                else
-                {
-                    lineas[0].enabled = false;
-                    lineas[1].enabled = false;
-                    lineas[2].enabled = false;
-                    lineas[3].enabled = false;
-                    lineas[4].enabled = false;
-                    lineas[5].enabled = false;
-                    lineas[6].enabled = true;
-                }
-            }
+            Debug.Log("Funcionan todas");
         }
     }
 }
+
