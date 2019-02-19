@@ -161,7 +161,6 @@ namespace Com.MyCompany.MyGame
                 CustomProps.Add("llega" + Jugador.diaActual, false);
             }
             else if (juega) CustomProps.Add("llega" + Jugador.diaActual, llega);
-            Debug.Log("Dia " + Jugador.diaActual);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
         }
     }

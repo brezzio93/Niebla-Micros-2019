@@ -136,18 +136,7 @@ namespace Com.MyCompany.MyGame
 
             if (cantidad <= 20)
             {
-                //foreach (string room in GameManager.instance.RoomList)
-                //{
-                //    if (room == PhotonNetwork.LocalPlayer.NickName)
-                //    {
-                //        PhotonNetwork.JoinRoom(room);
-                //        return;
-                //    }
-                //}
-
                 PhotonNetwork.CreateRoom(PhotonNetwork.LocalPlayer.NickName + " #" + id_Sala, roomOptions);
-
-                //parameters.SetRoomProperties();
             }
         }
 

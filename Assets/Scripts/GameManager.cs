@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 
 namespace Com.MyCompany.MyGame
 {
@@ -34,8 +33,6 @@ namespace Com.MyCompany.MyGame
         #region Eventos
 
         public event Action<string> SeJugo;
-
-        public event Action<string> NoJugo;
 
         public event Action<Player> AlEntrarJugador;
 
@@ -232,12 +229,12 @@ namespace Com.MyCompany.MyGame
             {
                 //Este caso cuenta a los jugadores que han tomado el bus al inicio del día
                 case CodigoEventosJuego.JugadorJuega:
-                    string JugadorNick = (string)photonEvent.CustomData;
+                    string JugadorId = (string)photonEvent.CustomData;
                     if (SeJugo != null)
                     {
-                        SeJugo(JugadorNick);
+                        SeJugo(JugadorId);
                     }
-                    ConfirmarJugadores(JugadorNick);
+                    ConfirmarJugadores(JugadorId);
 
                     break;
 
@@ -245,9 +242,10 @@ namespace Com.MyCompany.MyGame
                 case CodigoEventosJuego.EsperarBus:
                     SceneManager.LoadScene(8);
                     break;
+
                 case CodigoEventosJuego.TerminarEspera:
                     //var jugaron = photonEvent.CustomData;
-                    
+
                     //Debug.Log("TerminarEspera "+jugaron);
                     SceneManager.LoadScene(8);
                     break;
@@ -285,15 +283,15 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se remueven a los jugadores que han jugado al comienzo del día
         /// </summary>
-        /// <param name="nickname">nickname del jugador que ha jugado</param>
-        private void ConfirmarJugadores(string nickname)
+        /// <param name="idPlayer">nickname del jugador que ha jugado</param>
+        private void ConfirmarJugadores(string idPlayer)
         {
-            if (JugadoresJugados.Contains(nickname))
+            if (JugadoresJugados.Contains(idPlayer))
             {
-                JugadoresJugados.Remove(nickname);
+                JugadoresJugados.Remove(idPlayer);
 
                 if (JugadoresJugados.Count == 0)
-                {                    
+                {
                     LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
                 }
             }

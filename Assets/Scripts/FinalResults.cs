@@ -101,7 +101,7 @@ namespace Com.MyCompany.MyGame
         }
 
         public void ContarPorcentajes(string opcion)
-        public void GraficoUsuario() //muestra solo el grafico del jugador seleccionado
+        
         {
             int cantidadTotal = 0, cantidad = 0, index = 0;
             List<int> contados = new List<int>();
@@ -128,6 +128,8 @@ namespace Com.MyCompany.MyGame
             }
             Debug.LogFormat("Total {0}: {1}", cantidadTotal, opcion);
         }
+        public void GraficoUsuario() //muestra solo el grafico del jugador seleccionado
+        { 
             Debug.Log("algo3");
             lineas = new LineRenderer[7];
             lineas[0] = rojo;
