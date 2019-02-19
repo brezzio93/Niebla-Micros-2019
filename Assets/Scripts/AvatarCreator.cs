@@ -7,6 +7,8 @@ namespace Com.MyCompany.MyGame
     {
         public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host           
         public Image Avatar;
+        public Text namePlayer;
+        private string strName;
 
         // Start is called before the first frame update
         private void Start()
@@ -25,7 +27,9 @@ namespace Com.MyCompany.MyGame
             var faces =GameManager.instance.GetAvatarFaces(nombreSprite);
             Avatar.gameObject.SetActive(true);
             Avatar.sprite = faces.happy;
-            asignado = true; 
+            asignado = true;
+
+            
         }
 
         /// <summary>
@@ -41,6 +45,19 @@ namespace Com.MyCompany.MyGame
                 Avatar.sprite = faces.happy;
             else Avatar.sprite = faces.sad;
             asignado = true;
+        }
+
+        public void ObtenerNombre(string nickname)
+        {
+            strName = nickname;            
+        }
+
+        public void MostrarNombre()
+        {
+            Debug.Log(strName);
+            if (namePlayer.text == strName)
+                namePlayer.text = "";
+            else namePlayer.text = strName;
         }
     }
 }

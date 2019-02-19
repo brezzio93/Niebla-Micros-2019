@@ -50,6 +50,7 @@ namespace Com.MyCompany.MyGame
                 if (!button.asignado)
                 {
                     button.ConstruirAvatar(obj.CustomProperties["Imagen"] as string);
+                    button.ObtenerNombre(obj.NickName);
 
                     break;
                 }
