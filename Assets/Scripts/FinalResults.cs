@@ -14,36 +14,36 @@ namespace Com.MyCompany.MyGame
 		[SerializeField]
 		private Image graphPagados, graphLlegados, avatar;
 
-		private List<double> pagoList, llegoList;
-        private Window_Graph graficoLineas;
+	/*	private List<double> pagoList, llegoList;
+        private Window_Graph graficoLineas;*/
 
         // Start is called before the first frame update
         private void Start()
 		{
-			Llenar();
+            Llenar();
+          
 			string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
 			nombreSala.text = sala[0];
-			pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
+            CargarSprite();
+            pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
 			llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
 			pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
 			llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
-			int pagoVerde = 0; //para el gráfico de porcentaje de pagados
+			/*int pagoVerde = 0; //para el gráfico de porcentaje de pagados
 			int llegoAzul = 1; //para el gráfico de porcentaje de llegados
 			pagoList = new List<double>();
 			llegoList = new List<double>();
             graficoLineas= new Window_Graph();
+            Debug.Log("Crea listas de pagados, llegadas y grafico");
             pagoList.AddRange(ContarPorcentajes("pago"));
             llegoList.AddRange(ContarPorcentajes("llega"));
-            graficoLineas.GraficosLineas(pagoList, pagoVerde);
-			graficoLineas.GraficosLineas(llegoList, llegoAzul);
+            Debug.Log("Se llenan las de porcentaje");
+            graficoLineas.GraficosLineas(pagoList, pagoVerde, GameManager.instance.maxDias);
+            Debug.Log("Llama a verde");
+            graficoLineas.GraficosLineas(llegoList, llegoAzul, GameManager.instance.maxDias);*/
           
         }
 
-		// Update is called once per frame
-		private void Update()
-		{
-			CargarSprite();
-		}
 
 		private void CargarSprite()
 		{
@@ -112,7 +112,7 @@ namespace Com.MyCompany.MyGame
 				index++;
 			}
 			Debug.LogFormat("Total {0}: {1}", cantidadTotal, opcion);
-
+            Debug.Log("entra a porcentaje");
 			return contadosPorcentaje; //para llamar a la funcion de graficos de linea
 		}
 
