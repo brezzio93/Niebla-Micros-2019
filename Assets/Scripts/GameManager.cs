@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -240,13 +241,12 @@ namespace Com.MyCompany.MyGame
 
                 //Carga la escena de llegada una vez que todos los jugadores toman el bus
                 case CodigoEventosJuego.EsperarBus:
-                    SceneManager.LoadScene(8);
+                    StartCoroutine(MostrarAnimacionBus(20.0f));//20.0f es el tiempo aprox que dura la animación del bus
+                    //SceneManager.LoadScene(8);
                     break;
 
                 case CodigoEventosJuego.TerminarEspera:
-                    //var jugaron = photonEvent.CustomData;
-
-                    //Debug.Log("TerminarEspera "+jugaron);
+                    StopAllCoroutines();
                     SceneManager.LoadScene(8);
                     break;
 
@@ -256,11 +256,8 @@ namespace Com.MyCompany.MyGame
                     JugadoresJugados.AddRange(JugadoresEnSala);
                     if (Jugador.diaActual == maxDias)
                         SceneManager.LoadScene(10);
-                    else
-                    {
-                        SceneManager.LoadScene(6);
-                    }
-
+                    else                    
+                        SceneManager.LoadScene(6);                    
                     break;
 
                 //Se reinician los datos del juego al comenzar un juego nuevo
@@ -291,10 +288,19 @@ namespace Com.MyCompany.MyGame
                 JugadoresJugados.Remove(idPlayer);
 
                 if (JugadoresJugados.Count == 0)
-                {
+                {                                        
                     LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
+
                 }
             }
+        }
+
+
+        IEnumerator MostrarAnimacionBus(float seconds)
+        {
+            yield return new WaitForSeconds(seconds);
+            SceneManager.LoadScene(8);
+            //LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
         }
 
         /// <summary>
@@ -310,6 +316,11 @@ namespace Com.MyCompany.MyGame
 
             PhotonNetwork.RaiseEvent((byte)eventosJuego, param, raiseEventOptions, sendOptions);
         }
+
+        
+
+        
+
 
         #endregion Public Methods
     }

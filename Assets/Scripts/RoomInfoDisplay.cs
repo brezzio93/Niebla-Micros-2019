@@ -54,7 +54,7 @@ namespace Com.MyCompany.MyGame
                     SpriteDuenno.sprite = face.happy;
                     SpriteDuenno.gameObject.SetActive(true);
 
-                    PlayersInRoom();
+                    CountPlayersInRoom();
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se lista a los jugadores dentro de la sala actual
         /// </summary>
-        private void PlayersInRoom()
+        private void CountPlayersInRoom()
         {
             int i = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.PlayerCount);
             jugadores.text = "Jugadores Conectados:\n" + System.Convert.ToString(PhotonNetwork.CurrentRoom.PlayerCount)
@@ -77,8 +77,6 @@ namespace Com.MyCompany.MyGame
             if (PhotonNetwork.IsMasterClient)
             {
                 GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoJuego, null, ReceiverGroup.All);
-
-                
                 LoadArena(6);
             }
         }

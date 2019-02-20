@@ -82,6 +82,7 @@ namespace Com.MyCompany.MyGame
                 AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
                 button.ConstruirAvatar(p.CustomProperties["Imagen"] as string);
+                button.ObtenerNombre(p.NickName);
                 button.transform.SetParent(playerTemplate.transform.parent, false);
                 buttons.Add(button);
             }

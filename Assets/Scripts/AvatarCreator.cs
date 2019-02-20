@@ -35,8 +35,8 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se asigna una cara triste o feliz al jugador, dependiendo de si llega o no al trabajo
         /// </summary>
-        /// <param name="nombreSprite"></param>
-        /// <param name="llegada"></param>
+        /// <param name="nombreSprite">Nombre del Sprite, se usa para obtener el sprite de AvatarFaces</param>
+        /// <param name="llegada">Indica si el jugador llegó o no, factor que cambia el sprite mostrado</param>
         public void ConstruirAvatar(string nombreSprite, bool llegada)
         {
             var faces = GameManager.instance.GetAvatarFaces(nombreSprite);
@@ -49,11 +49,13 @@ namespace Com.MyCompany.MyGame
 
         public void ObtenerNombre(string nickname)
         {
+            Debug.Log(nickname);
             strName = nickname;            
         }
 
         public void MostrarNombre()
         {
+            Debug.Log("MostrarNombre()");
             Debug.Log(strName);
             if (namePlayer.text == strName)
                 namePlayer.text = "";
