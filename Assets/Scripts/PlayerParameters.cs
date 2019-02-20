@@ -43,8 +43,7 @@ namespace Com.MyCompany.MyGame
         {
             ChosenName = Avatar.sprite.name;
             Chosen.sprite = Avatar.sprite;
-            Chosen.gameObject.SetActive(true);
-            Debug.Log("SetPlayerAvatar " + ChosenName);
+            Chosen.gameObject.SetActive(true);            
         }
     }
 }

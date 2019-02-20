@@ -39,13 +39,10 @@ namespace Com.MyCompany.MyGame
             bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.diaActual]);
             if (llega)
             {
-                nombreSprite = NombreSprite(0);
-                //CargarSprite(avatar, nombreSprite);
+                nombreSprite = GetNombreSprite(0);                
                 ConstruirAvatar(nombreSprite, llega);
-                CargarSprite(bus, "atlas_2_8");
-
+                CargarSprite(bus, Buses[1]);
                 message.text = "¡Bien, has llegado a tu trabajo!";
-
                 message.color = Color.green;
                 ganancia.gameObject.SetActive(true);
                 ganancia.text = PhotonNetwork.CurrentRoom.CustomProperties["ganancia"] as string;
@@ -54,10 +51,9 @@ namespace Com.MyCompany.MyGame
             {
                 obtenidoPlainText.gameObject.SetActive(false);
                 panel.gameObject.SetActive(false);
-                nombreSprite = NombreSprite(1);
-                //CargarSprite(avatar, nombreSprite);
+                nombreSprite = GetNombreSprite(1);
                 ConstruirAvatar(nombreSprite, llega);
-                CargarSprite(bus, "atlas_2_7");
+                CargarSprite(bus, Buses[0]);
                 placeholder.transform.Translate(Vector3.right * 200);
                 avatar.transform.Translate(Vector3.right * 200);
 
@@ -66,7 +62,7 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-        private string NombreSprite(int num)
+        private string GetNombreSprite(int num)
         {
             string name = PhotonNetwork.LocalPlayer.CustomProperties["Imagen"] as string;
             string[] parts = name.Split('_');
@@ -86,16 +82,11 @@ namespace Com.MyCompany.MyGame
             return name;
         }
 
-        private void CargarSprite(Image image, string nombreSprite)
+        private void CargarSprite(Image image, Sprite sprite)
         {
-            foreach (Sprite sprite in Buses)
-            {
-                if (sprite.name == nombreSprite)
-                {
+
                     image.sprite = sprite;
                     image.gameObject.SetActive(true);
-                }
-            }
         }
 
         public void ConstruirAvatar(string nombreSprite, bool llegada)

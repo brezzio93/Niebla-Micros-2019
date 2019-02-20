@@ -194,7 +194,7 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void FinishGame()
         {
-            PhotonNetwork.LeaveRoom();
+            if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
         }
 
         public void SwitchScenes(int idScene)
@@ -221,6 +221,13 @@ namespace Com.MyCompany.MyGame
         {
             server.CreateOrJoin();
         }
+
+        public void Desconectar()
+        {
+            if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();            
+            SwitchScenes(0);
+        }
+
 
         public void OnEvent(EventData photonEvent)
         {
@@ -316,11 +323,6 @@ namespace Com.MyCompany.MyGame
 
             PhotonNetwork.RaiseEvent((byte)eventosJuego, param, raiseEventOptions, sendOptions);
         }
-
-        
-
-        
-
 
         #endregion Public Methods
     }

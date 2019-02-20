@@ -10,6 +10,9 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private AvatarCreator playerTemplate;
 
+        [SerializeField]
+        private List<Sprite> placeHolders;
+
         private List<AvatarCreator> buttons;
 
         private string currentScene;
@@ -28,7 +31,6 @@ namespace Com.MyCompany.MyGame
 
             if (currentScene == "10 Resultados Finales")
             {
-                //GameManager.instance.AlEntrarJugador -= Instance_AlEntrarJugador;
                 ListarJugadores();
             }
         }
@@ -51,7 +53,6 @@ namespace Com.MyCompany.MyGame
                 {
                     button.ConstruirAvatar(obj.CustomProperties["Imagen"] as string);
                     button.ObtenerNombre(obj.NickName);
-
                     break;
                 }
             }
@@ -106,19 +107,10 @@ namespace Com.MyCompany.MyGame
             {
                 AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
-
                 button.ConstruirAvatar(p.CustomProperties["Imagen"] as string);
 
                 button.transform.SetParent(playerTemplate.transform.parent, false);
                 buttons.Add(button);
-            }
-
-            foreach (AvatarCreator button in buttons)
-            {
-                //foreach (Player p in PlayerList)
-                //{
-                //    Sprite sprite = GameManager.instance.Avatars.FirstOrDefault(s => s.name == (p.CustomProperties["Imagen"] as string));
-                //}
             }
         }
     }

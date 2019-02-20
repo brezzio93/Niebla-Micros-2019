@@ -5,8 +5,10 @@ namespace Com.MyCompany.MyGame
 {
     public class AvatarCreator : MonoBehaviour
     {
-        public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host           
-        public Image Avatar;
+        [HideInInspector]
+        public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host
+
+        public Image Avatar, textBalloon;
         public Text namePlayer;
         private string strName;
 
@@ -19,17 +21,15 @@ namespace Com.MyCompany.MyGame
         /// Se asignan los valores al Avatar que seleccionó el Jugador
         /// </summary>
         /// <param name="nombreSprite">
-        /// Nombre del sprite del avatar seleccionado por los jugadores al comienzo del juego, 
+        /// Nombre del sprite del avatar seleccionado por los jugadores al comienzo del juego,
         /// con este se obtiene el sprite desde la lista de avatares en gamemanager
         /// </param>
         public void ConstruirAvatar(string nombreSprite)
         {
-            var faces =GameManager.instance.GetAvatarFaces(nombreSprite);
+            var faces = GameManager.instance.GetAvatarFaces(nombreSprite);
             Avatar.gameObject.SetActive(true);
             Avatar.sprite = faces.happy;
             asignado = true;
-
-            
         }
 
         /// <summary>
@@ -47,19 +47,31 @@ namespace Com.MyCompany.MyGame
             asignado = true;
         }
 
+        /// <summary>
+        /// Almacena el nombre del jugador que se está uniendo a la sala de espera
+        /// </summary>
+        /// <param name="nickname"></param>
         public void ObtenerNombre(string nickname)
         {
             Debug.Log(nickname);
-            strName = nickname;            
+            strName = nickname;
         }
 
+        /// <summary>
+        /// Muestra por pantalla el nombre del jugador que se está clickeando
+        /// </summary>
         public void MostrarNombre()
         {
-            Debug.Log("MostrarNombre()");
-            Debug.Log(strName);
             if (namePlayer.text == strName)
+            {
                 namePlayer.text = "";
-            else namePlayer.text = strName;
+                textBalloon.gameObject.SetActive(false);
+            }
+            else
+            {
+                namePlayer.text = strName;
+                textBalloon.gameObject.SetActive(true);
+            }
         }
     }
 }
