@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
+using Com.MyCompany.MyGame;
 
 public class Window_Graph : MonoBehaviour {
 
@@ -11,15 +12,41 @@ public class Window_Graph : MonoBehaviour {
     [SerializeField] private Sprite circleSpriteGreen;
     private Sprite circleSprite;
     private RectTransform graphContainer;
+    private List<double> pagoList, llegoList;
+    private FinalResults contar;
+
+    private void Start()
+    {
+        graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
+        Debug.Log("Crea graphContainer");
+        int pagoVerde = 0; //para el gráfico de porcentaje de pagados
+        int llegoAzul = 1; //para el gráfico de porcentaje de llegados
+        pagoList = new List<double>();
+        llegoList = new List<double>();
+        Debug.Log("Crea listas de pagados, llegadas y grafico");
+        contar = new FinalResults();
+        pagoList.AddRange(contar.ContarPorcentajes("pago"));
+        llegoList.AddRange(contar.ContarPorcentajes("llega"));
+        Debug.Log("Se llenan las de porcentaje");
+        GraficosLineas(pagoList, pagoVerde);
+        Debug.Log("Llama a verde");
+        GraficosLineas(llegoList, llegoAzul);
+        Debug.Log("Llama a azul");
+    }
 
     public void GraficosLineas(List<double> valueList, int color) {
+        Debug.Log("entra a GraficosLineas");
         
-        graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
         int color1 = color;
-        for (int i=0; i<=9; i++)
+        for (int i=0; i<valueList.Count; i++)
         {
-            valueList[i] = (double)(valueList[i] * 240) / 100; //se transforma el porcentaje segun alto de container (240)
+            Debug.Log("Porcentaje sin convertir día "+ i);
+            Debug.Log(valueList[i]);
+            valueList[i] = ((double)valueList[i] * 240); //se transforma el porcentaje segun alto de container (240)
+            Debug.Log("Porcentaje convertido día "+ i);
+            Debug.Log(valueList[i]);
         }
+
         ShowGraph(valueList, color1);
     }
 
