@@ -9,10 +9,11 @@ using Com.MyCompany.MyGame;
 public class Window_Graph : MonoBehaviour {
 
     [SerializeField] private Sprite circleSpriteBlue;
+    [SerializeField] private Sprite circleSpriteBlueHalf;
     [SerializeField] private Sprite circleSpriteGreen;
     private Sprite circleSprite;
     private RectTransform graphContainer;
-    private List<double> pagoList, llegoList;
+    private List<double> pagoList, llegoList, valueList, valueList1;
     private FinalResults contar;
 
     private void Start()
@@ -28,34 +29,59 @@ public class Window_Graph : MonoBehaviour {
         pagoList.AddRange(contar.ContarPorcentajes("pago"));
         llegoList.AddRange(contar.ContarPorcentajes("llega"));
         Debug.Log("Se llenan las de porcentaje");
-        GraficosLineas(pagoList, pagoVerde);
         Debug.Log("Llama a verde");
-        GraficosLineas(llegoList, llegoAzul);
+        GraficosLineas(pagoList, llegoList, pagoVerde);
         Debug.Log("Llama a azul");
+        GraficosLineas(pagoList, llegoList, llegoAzul);
     }
 
-    public void GraficosLineas(List<double> valueList, int color) {
+    public void GraficosLineas(List<double> pago, List<double> llego, int color) {
         Debug.Log("entra a GraficosLineas");
-        
+        valueList = new List<double>();
+        valueList1 = new List<double>();
         int color1 = color;
-        for (int i=0; i<valueList.Count; i++)
+        if (color1 == 0)
         {
-            Debug.Log("Porcentaje sin convertir día "+ i);
-            Debug.Log(valueList[i]);
-            valueList[i] = ((double)valueList[i] * 240); //se transforma el porcentaje segun alto de container (240)
-            Debug.Log("Porcentaje convertido día "+ i);
-            Debug.Log(valueList[i]);
+            valueList = pago;
+            valueList1 = llego;
+        }
+        else if (color1 == 1)
+        {
+            valueList = llego;
+            valueList1 = pago;
         }
 
-        ShowGraph(valueList, color1);
+        for (int i = 0; i < valueList.Count; i++)
+        {
+            Debug.Log("Porcentaje sin convertir pago ");
+            Debug.Log(pago[i]);
+            Debug.Log("Porcentaje sin convertir llego ");
+            Debug.Log(llego[i]);
+
+            valueList[i] = ((double)valueList[i] * 240); //se transforma el porcentaje segun alto de container (240)
+            Debug.Log("Porcentaje convertido pago ");
+            Debug.Log(pago[i]);
+            Debug.Log("Porcentaje convertido llego ");
+            Debug.Log(llego[i]);
+        }
+
+        ShowGraph(valueList, valueList1, color1);
     }
 
-    private GameObject CreateCircle(Vector2 anchoredPosition, int color) {
+    private GameObject CreateCircle(Vector2 anchoredPosition, int color, double valueList, double valueList1) {
         int color1 = color;
         if(color1==1)//1 es el gráfico azul, 0 es el verde
         {
-            circleSprite = circleSpriteBlue;   
-        }else if(color1==0)
+            circleSprite = circleSpriteBlue;
+            if (valueList == valueList1)
+            {
+                Debug.Log("son ambos iguales?");
+                Debug.Log(valueList);
+                Debug.Log(valueList1);
+                circleSprite = circleSpriteBlueHalf;
+            }
+        }
+        else if(color1==0)
         {
             circleSprite = circleSpriteGreen;
         }
@@ -71,7 +97,7 @@ public class Window_Graph : MonoBehaviour {
         return gameObject;
     }
 
-    private void ShowGraph(List<double> valueList, int color) {
+    private void ShowGraph(List<double> valueList, List<double> valueList1, int color) {
         int color1 = color;
         float graphHeight = graphContainer.sizeDelta.y;
         float yMaximum = 240f; //alto máximo de container eje y
@@ -81,7 +107,7 @@ public class Window_Graph : MonoBehaviour {
         for (int i = 0; i < valueList.Count; i++) {
             float xPosition = xSize + i * xSize;
             float yPosition = ((float)valueList[i] / yMaximum) * graphHeight;
-            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color1);
+            GameObject circleGameObject = CreateCircle(new Vector2(xPosition, yPosition), color1, valueList[i], valueList1[i]);
             if (lastCircleGameObject != null) {
                 CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition, color1);
             }
