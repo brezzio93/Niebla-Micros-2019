@@ -18,7 +18,6 @@ namespace Com.MyCompany.MyGame
         public struct Params
         {
             public string nombre, monto, precio, ganancia, cantidad;
-            //public byte cantidad;
 
             public Params(string p1, string p2, string p3, string p4, string p5)
             {
@@ -32,10 +31,13 @@ namespace Com.MyCompany.MyGame
 
         static public Params param;
 
-        // Use this for initialization
-        private void Awake()
+        private void Start()
         {
-            //DontDestroyOnLoad(this);
+            //Se cambia el teclado mostrado en móviles como teclado numérico 
+            monto.keyboardType = TouchScreenKeyboardType.NumberPad;
+            precio.keyboardType = TouchScreenKeyboardType.NumberPad;
+            ganancia.keyboardType = TouchScreenKeyboardType.NumberPad;
+            cantidad.keyboardType = TouchScreenKeyboardType.NumberPad;
         }
 
         public void setGetInputs()
