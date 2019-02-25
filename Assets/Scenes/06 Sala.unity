@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658017, g: 0.49641502, b: 0.57482153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -789,6 +789,8 @@ MonoBehaviour:
   pasaje: {fileID: 697004099}
   saldo: {fileID: 620808223}
   noPago: {fileID: 1344801754}
+  pagar: {fileID: 608953122}
+  noPagar: {fileID: 1030350986}
 --- !u!4 &1043577712
 Transform:
   m_ObjectHideFlags: 0
@@ -1118,9 +1120,9 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 22
+    m_FontSize: 24
     m_FontStyle: 1
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
@@ -1129,7 +1131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: No
+  m_Text: Pasar
 --- !u!222 &1344801755
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1402,8 +1404,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -47.7, y: 0}
-  m_SizeDelta: {x: -158.63, y: 0}
+  m_AnchoredPosition: {x: -49.042, y: -0.46501}
+  m_SizeDelta: {x: -132.45, y: -24.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1870330172
 MonoBehaviour:
@@ -1438,7 +1440,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Si
+  m_Text: Pagar
 --- !u!222 &1870330173
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1826,7 +1828,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\xBFDeseas pagar el pasaje?"
+  m_Text: "\xBFPagar\xE1s el pasaje esta vez?"
 --- !u!222 &2104859776
 CanvasRenderer:
   m_ObjectHideFlags: 0
