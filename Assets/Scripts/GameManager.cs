@@ -248,8 +248,7 @@ namespace Com.MyCompany.MyGame
 
                 //Carga la escena de llegada una vez que todos los jugadores toman el bus
                 case CodigoEventosJuego.EsperarBus:
-                    StartCoroutine(MostrarAnimacionBus(20.0f));//20.0f es el tiempo aprox que dura la animación del bus
-                    //SceneManager.LoadScene(8);
+                    StartCoroutine(MostrarAnimacionBus(20.0f));//20.0f es el tiempo aprox que dura la animación del bus                    
                     break;
 
                 case CodigoEventosJuego.TerminarEspera:
@@ -302,12 +301,16 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-
+        /// <summary>
+        /// Se muestra la animación del bus y despues de un tiempo se carga la escena con los resultados de llegada del bus.
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
         IEnumerator MostrarAnimacionBus(float seconds)
         {
             yield return new WaitForSeconds(seconds);
             SceneManager.LoadScene(8);
-            //LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
+
         }
 
         /// <summary>

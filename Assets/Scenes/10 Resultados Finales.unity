@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44658017, g: 0.49641502, b: 0.57482153, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1837,6 +1837,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asignado: 0
   Avatar: {fileID: 1060201771}
+  textBalloon: {fileID: 0}
+  placeHolder: {fileID: 0}
+  namePlayer: {fileID: 0}
+  placeHolders: []
 --- !u!1 &745427975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,13 +1969,6 @@ MonoBehaviour:
   graphPagados: {fileID: 495696055}
   graphLlegados: {fileID: 1897426407}
   avatar: {fileID: 114606897}
-  rojo: {fileID: 0}
-  azul: {fileID: 0}
-  amarillo: {fileID: 0}
-  naranjo: {fileID: 0}
-  verde: {fileID: 0}
-  purpura: {fileID: 0}
-  rosa: {fileID: 0}
 --- !u!1 &762396632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleSpriteBlue: {fileID: 21300000, guid: 9ba7fe80671afac42bbb90d59bbcf9f5, type: 3}
+  circleSpriteBlueHalf: {fileID: 21300000, guid: b470a337f74ae864e8c06f45ffe0e3e7,
+    type: 3}
   circleSpriteGreen: {fileID: 21300000, guid: 8ba5aea906414ae4a8a47ae0627ecb2a, type: 3}
 --- !u!1 &789692008
 GameObject:

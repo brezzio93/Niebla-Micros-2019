@@ -11,13 +11,13 @@ namespace Com.MyCompany.MyGame
         public static int billetera;
 
         [SerializeField]
-        private Text t_dias, pasaje, saldo;
+        private Text t_dias, pasaje, saldo, noPago;
 
         private float probabilidad;
 
-        private bool[] pago, llego;
         private int evasores = 0;
         private int precio, ganancia, monto_inicial;
+        private static bool noHasPagado = false;
 
         public static int diaActual = 0;
 
@@ -25,30 +25,41 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             PhotonNetwork.AutomaticallySyncScene = false;
-
+           
             diaActual++;
+            t_dias.text = "Día " + System.Convert.ToString(diaActual);
 
-            if (diaActual == 11)
+            //Saca al jugador de la sala en caso de que ingrese a esta sala despues de haber cumplido la cantidad de días establecidos
+            if (diaActual == (GameManager.instance.maxDias+1))
             {
                 SceneManager.LoadScene(0);
                 PhotonNetwork.LeaveRoom();
             }
+
+            //Se utilizan estas variables auxiliares para no tener que llamar a los custom properties
             precio = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["precio"]);
             ganancia = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["ganancia"]);
             monto_inicial = System.Convert.ToInt32(PhotonNetwork.CurrentRoom.CustomProperties["monto"]);
 
-            if (diaActual==1) billetera = monto_inicial;
+            //Se asignan los valores a los objetos tipo Text asociados al dinero que maneja el jugador
+            if (diaActual == 1) billetera = monto_inicial;
             else billetera = CalcularBilletera();
-
-            t_dias.text = "Día " + System.Convert.ToString(diaActual);
             saldo.text = System.Convert.ToString(billetera);
-            pasaje.text = System.Convert.ToString(-precio);
-        }
+            pasaje.text = System.Convert.ToString(-precio);            
 
-        // Update is called once per frame
-        private void Update()
-        {
-            saldo.text = System.Convert.ToString(billetera);
+            //En caso de que no se haya pagado el pasaje durante la sesión actual de juego se cambia el contenido del botón noPago
+            if (diaActual == 1) noHasPagado = false;
+            if (diaActual > 1 && !noHasPagado)
+            {
+                if (!System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + (diaActual - 1)]))
+                {
+                    noHasPagado = true;
+                }
+            }
+            if (noHasPagado) noPago.text = "No pagar por esta vez";
+            else noPago.text = "No";
+
+            
         }
 
         /// <summary>
@@ -78,7 +89,7 @@ namespace Com.MyCompany.MyGame
         }
 
         /// <summary>
-        /// Revisa los custom properties de pago/llegada para añadir fondos a la billetera
+        /// Revisa los custom properties de pago/llegada para añadir fondos a la billetera, se llama desde el segundo día
         /// </summary>
         /// <returns>retorna el monto actual de la billetera del jugador</returns>
         public int CalcularBilletera()

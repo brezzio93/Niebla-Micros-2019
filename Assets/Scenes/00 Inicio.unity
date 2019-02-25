@@ -317,7 +317,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1190,7 +1190,7 @@ PrefabInstance:
     - target: {fileID: 114664721417219006, guid: fb352a14a943bc249a4f06b856ef4796,
         type: 3}
       propertyPath: maxDias
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4081004900350410, guid: fb352a14a943bc249a4f06b856ef4796, type: 3}
       propertyPath: m_LocalPosition.x

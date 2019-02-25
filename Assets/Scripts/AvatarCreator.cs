@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
@@ -8,9 +9,13 @@ namespace Com.MyCompany.MyGame
         [HideInInspector]
         public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host
 
-        public Image Avatar, textBalloon;
+        public Image Avatar, textBalloon,placeHolder;
         public Text namePlayer;
         private string strName;
+
+        [SerializeField]
+        private List<Sprite> placeHolders;
+
 
         // Start is called before the first frame update
         private void Start()
@@ -30,6 +35,8 @@ namespace Com.MyCompany.MyGame
             Avatar.gameObject.SetActive(true);
             Avatar.sprite = faces.happy;
             asignado = true;
+            if(GameManager.instance.GetCurrentScene().name=="05 Espera")
+                placeHolder.sprite = placeHolders[0];
         }
 
         /// <summary>
@@ -62,16 +69,25 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void MostrarNombre()
         {
-            if (namePlayer.text == strName)
+            if (strName == null)//Si se clickea una casilla vacía, no se mostrará nada
             {
                 namePlayer.text = "";
                 textBalloon.gameObject.SetActive(false);
             }
             else
             {
-                namePlayer.text = strName;
-                textBalloon.gameObject.SetActive(true);
+                if (namePlayer.text == strName)// Al hacer click en una casilla que esté mostrando el nombre del jugador, se ocultará el nombre
+                {
+                    namePlayer.text = "";
+                    textBalloon.gameObject.SetActive(false);
+                }
+                else //Al hacer click en una casilla que no esté mostrando el nombre del jugador, se mostrará junto a un globo de texto
+                {
+                    namePlayer.text = strName;
+                    textBalloon.gameObject.SetActive(true);
+                }
             }
+            
         }
     }
 }

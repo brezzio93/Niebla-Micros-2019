@@ -2,16 +2,14 @@
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
 {
     public class SpriteControl : MonoBehaviour
     {
         [SerializeField]
-        private AvatarCreator playerTemplate;
-
-        [SerializeField]
-        private List<Sprite> placeHolders;
+        private AvatarCreator playerTemplate;      
 
         private List<AvatarCreator> buttons;
 
@@ -108,7 +106,6 @@ namespace Com.MyCompany.MyGame
                 AvatarCreator button = Instantiate(playerTemplate) as AvatarCreator;
                 button.gameObject.SetActive(true);
                 button.ConstruirAvatar(p.CustomProperties["Imagen"] as string);
-
                 button.transform.SetParent(playerTemplate.transform.parent, false);
                 buttons.Add(button);
             }

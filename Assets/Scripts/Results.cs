@@ -142,9 +142,9 @@ namespace Com.MyCompany.MyGame
             pLlega = pLlega * 100;
             Debug.Log(pLlega + "%");
 
-            if (pLlega < UnityEngine.Random.Range(0, 100))
-                llega = false;
-            else llega = true;
+            if (pLlega >= UnityEngine.Random.Range(0, 100))
+                llega = true;
+            else llega = false;
 
             if (!juega)
             {
