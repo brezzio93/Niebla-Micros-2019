@@ -13,6 +13,9 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Text t_dias, pasaje, saldo, noPago;
 
+        [SerializeField]
+        private Button pagar, noPagar;
+
         private float probabilidad;
 
         private int evasores = 0;
@@ -25,12 +28,12 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             PhotonNetwork.AutomaticallySyncScene = false;
-           
+
             diaActual++;
             t_dias.text = "Día " + System.Convert.ToString(diaActual);
 
             //Saca al jugador de la sala en caso de que ingrese a esta sala despues de haber cumplido la cantidad de días establecidos
-            if (diaActual == (GameManager.instance.maxDias+1))
+            if (diaActual == (GameManager.instance.maxDias + 1))
             {
                 SceneManager.LoadScene(0);
                 PhotonNetwork.LeaveRoom();
@@ -44,8 +47,21 @@ namespace Com.MyCompany.MyGame
             //Se asignan los valores a los objetos tipo Text asociados al dinero que maneja el jugador
             if (diaActual == 1) billetera = monto_inicial;
             else billetera = CalcularBilletera();
+            //Se oculta el botón de pagar cuando el jugador no tiene dinero para el pasaje
+            if (billetera < precio)
+            {
+                pagar.gameObject.SetActive(false);
+                noPagar.transform.Translate(Vector3.left * 200);
+            }
+            else
+            {
+                pagar.gameObject.SetActive(true);
+                saldo.text = System.Convert.ToString(billetera);
+            }
             saldo.text = System.Convert.ToString(billetera);
-            pasaje.text = System.Convert.ToString(-precio);            
+            pasaje.text = System.Convert.ToString(-precio);
+
+            
 
             //En caso de que no se haya pagado el pasaje durante la sesión actual de juego se cambia el contenido del botón noPago
             if (diaActual == 1) noHasPagado = false;
@@ -56,10 +72,10 @@ namespace Com.MyCompany.MyGame
                     noHasPagado = true;
                 }
             }
-            if (noHasPagado) noPago.text = "No pagar por esta vez";
-            else noPago.text = "No";
+            if (noHasPagado) noPago.text = "Pasar por esta vez";
+            else noPago.text = "Pasar";
 
-            
+
         }
 
         /// <summary>
