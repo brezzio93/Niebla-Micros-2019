@@ -46,7 +46,7 @@ MonoBehaviour:
   JugadoresEnSala: []
   JugadoresJugados: []
   RoomList: []
-  maxDias: 3
+  maxDias: 10
   caras:
   - happy: {fileID: 21300000, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}
     sad: {fileID: 21300002, guid: c47ad2ce2eb15224cbcaad460dbd4406, type: 3}

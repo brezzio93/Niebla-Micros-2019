@@ -9,13 +9,12 @@ namespace Com.MyCompany.MyGame
         [HideInInspector]
         public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host
 
-        public Image Avatar, textBalloon,placeHolder;
+        public Image Avatar, textBalloon, placeHolder;
         public Text namePlayer;
         private string strName;
 
         [SerializeField]
         private List<Sprite> placeHolders;
-
 
         // Start is called before the first frame update
         private void Start()
@@ -32,10 +31,13 @@ namespace Com.MyCompany.MyGame
         public void ConstruirAvatar(string nombreSprite)
         {
             var faces = GameManager.instance.GetAvatarFaces(nombreSprite);
-            Avatar.gameObject.SetActive(true);
-            Avatar.sprite = faces.happy;
+            if (Avatar != null)
+            {
+                Avatar.gameObject.SetActive(true);
+                Avatar.sprite = faces.happy;
+            }
             asignado = true;
-            if(GameManager.instance.GetCurrentScene().name=="05 Espera")
+            if (GameManager.instance.GetCurrentScene().name == "05 Espera")
                 placeHolder.sprite = placeHolders[0];
         }
 
@@ -87,7 +89,6 @@ namespace Com.MyCompany.MyGame
                     textBalloon.gameObject.SetActive(true);
                 }
             }
-            
         }
     }
 }

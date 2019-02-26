@@ -39,7 +39,7 @@ namespace Com.MyCompany.MyGame
             bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.diaActual]);
             if (llega)
             {
-                nombreSprite = GetNombreSprite(0);                
+                nombreSprite = GetNombreSprite(0);
                 ConstruirAvatar(nombreSprite, llega);
                 CargarSprite(bus, Buses[1]);
                 message.text = "¡Bien, has llegado a tu trabajo!";
@@ -54,8 +54,9 @@ namespace Com.MyCompany.MyGame
                 nombreSprite = GetNombreSprite(1);
                 ConstruirAvatar(nombreSprite, llega);
                 CargarSprite(bus, Buses[0]);
-                placeholder.transform.Translate(Vector3.right * 200);
-                avatar.transform.Translate(Vector3.right * 200);
+                placeholder.transform.Translate(Vector3.right * 200);//numero magico para centrar el avatar, ya q no hay panel del remuneracion.
+                //Comento esta linea xq emparente el avatar al placeholder. Lazy~
+                //avatar.transform.Translate(Vector3.right * 200);
 
                 message.text = "¡Oh no, tu micro se averió!";
                 message.color = Color.red;
@@ -84,9 +85,8 @@ namespace Com.MyCompany.MyGame
 
         private void CargarSprite(Image image, Sprite sprite)
         {
-
-                    image.sprite = sprite;
-                    image.gameObject.SetActive(true);
+            image.sprite = sprite;
+            image.gameObject.SetActive(true);
         }
 
         public void ConstruirAvatar(string nombreSprite, bool llegada)
