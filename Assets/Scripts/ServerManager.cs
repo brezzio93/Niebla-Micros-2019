@@ -46,13 +46,13 @@ namespace Com.MyCompany.MyGame
         public override void OnCreatedRoom()
         {
             base.OnCreatedRoom();
-            SwitchScenes(5);
+            GameManager.instance.SwitchScenes(5);
         }
 
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
-            SwitchScenes(5);
+            GameManager.instance.SwitchScenes(5);
         }
 
         public override void OnEnable()
@@ -67,9 +67,7 @@ namespace Com.MyCompany.MyGame
 
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-                //LoadArena();
+                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); 
             }
         }
 
@@ -79,9 +77,7 @@ namespace Com.MyCompany.MyGame
 
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-                //LoadArena();
+                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
             }
         }
 
@@ -108,8 +104,8 @@ namespace Com.MyCompany.MyGame
                 {
                     PhotonNetwork.JoinLobby();
                     Debug.Log("CreateOrJoin " + createRoom);
-                    if (createRoom == true) SwitchScenes(4);
-                    else SwitchScenes(3);
+                    if (createRoom == true) GameManager.instance.SwitchScenes(4);
+                    else GameManager.instance.SwitchScenes(3);
                 }
             }
         }
@@ -119,7 +115,7 @@ namespace Com.MyCompany.MyGame
         ///  </summary>
         public void CrearSala()
         {
-            int id_Sala = Random.Range(0, 9999);
+            int id_Sala = Random.Range(0, 9999);//Se añade este valor al nombre de la sala para que no genere conflico por crear varias salas con el mismo nombre
             Debug.Log("CrearSala()");
             int cantidad = System.Convert.ToInt32(RoomParameters.param.cantidad);
             RoomOptions roomOptions = new RoomOptions();
@@ -140,18 +136,30 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Obtiene el nombre de la sala seleccionada en el Lobby
+        /// </summary>
+        /// <param name="textString">
+        /// Nombre de la sala
+        /// </param>
         public void GetRoomName(string textString)
         {
             roomSelected = textString;
             Debug.Log(roomSelected);
         }
 
+        /// <summary>
+        /// Se llama cada vez que se actualiza la lista de salas
+        /// </summary>
+        /// <param name="roomList">
+        /// Lista de salas en el momento
+        /// </param>
         public void UpdateCachedRoomList(List<RoomInfo> roomList)
         {
             Debug.Log("UpdateCachedRoomList()");
             foreach (RoomInfo info in roomList)
             {
-                // Remove room from cached room list if it got closed, became invisible or was marked as removed
+                //elimina de la lista todas las salas que no estén disponibles de momento
                 if (!info.IsOpen || !info.IsVisible || info.RemovedFromList)
                 {
                     if (cachedRoomList.ContainsKey(info.Name))
@@ -163,12 +171,11 @@ namespace Com.MyCompany.MyGame
                     continue;
                 }
 
-                // Update cached room info
+                // Se actualizan las salas
                 if (cachedRoomList.ContainsKey(info.Name))
                 {
                     cachedRoomList[info.Name] = info;
                 }
-                // Add new room info to cache
                 else
                 {
                     cachedRoomList.Add(info.Name, info);
@@ -189,6 +196,7 @@ namespace Com.MyCompany.MyGame
         {
             Debug.Log(roomList.Count);
 
+            //Se limpian los botones 
             if (buttons.Count > 0)
             {
                 foreach (GameObject button in buttons)
@@ -197,6 +205,7 @@ namespace Com.MyCompany.MyGame
 
             buttons.Clear();
 
+            //Se crea un botón por cada sala en la lista de salas
             foreach (var room in roomList)
             {
                 Debug.Log(room.Name);

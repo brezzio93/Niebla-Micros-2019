@@ -20,6 +20,7 @@ namespace Com.MyCompany.MyGame
         private void Start()
         {
             InicializarTexto();
+            //Se oculta el botón que inicia el nuevo día a todos menos al host de la sala
             if (!PhotonNetwork.IsMasterClient) nextDayButton.gameObject.SetActive(false);
             else nextDayButton.gameObject.SetActive(true);
         }
@@ -43,8 +44,10 @@ namespace Com.MyCompany.MyGame
                 llega.text = "No";
                 ganancia.text = "0";
             }
+
             pagados.text = Contar("pago") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
             llegados.text = Contar("llega") + "/" + PhotonNetwork.CurrentRoom.PlayerCount;
+
             Llenar();
 
             montoInicial.text = System.Convert.ToString(CalcularBilletera(Jugador.diaActual - 1));
@@ -68,15 +71,18 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se cuentan a los jugadores que han jugado hasta el momento
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        /// <param name="str">
+        /// Opción de pagar/llegar
+        /// </param>
+        /// <returns>
+        /// Cantidad de jugadores que han pagado/llegado en el día actual
+        /// </returns>
         private string Contar(string str)
         {
             int i = 0;
             bool test;
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                //Debug.LogFormat("Día {0}:{1} {2}, {3}", Jugador.dias, p.NickName, str, p.CustomProperties[str + Jugador.dias]);
                 test = System.Convert.ToBoolean(p.CustomProperties[str + Jugador.diaActual]);
                 if (test) i++;
             }
@@ -86,8 +92,12 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se calcula la billetera del jugador local hasta el día actual
         /// </summary>
-        /// <param name="dias"></param>
-        /// <returns></returns>
+        /// <param name="dias">
+        /// Día actual del juego
+        /// </param>
+        /// <returns>
+        /// Saldo de billetera
+        /// </returns>
         public int CalcularBilletera(int dias)
         {
             bool pago, llego;

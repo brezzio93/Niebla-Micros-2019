@@ -18,18 +18,19 @@ namespace Com.MyCompany.MyGame
 
         public static GameManager instance = null;
 
-        //public List<Sprite> Avatars = new List<Sprite>();
+        [HideInInspector]
+        public List<string> JugadoresEnSala = new List<string>(); //Lista de jugadores en la sala, se ocupa para contar quienes han jugado en un día
 
         [HideInInspector]
-        public List<string> JugadoresEnSala = new List<string>();
-
-        [HideInInspector]
-        public List<string> JugadoresJugados = new List<string>();
+        public List<string> JugadoresJugados = new List<string>(); //Copia de JugadoresEnSala, se ocupa para contar quienes han jugado en un día
 
         [HideInInspector]
         public List<string> RoomList = new List<string>();
 
         public int maxDias;
+
+        [SerializeField]
+        private int duracionAnimacionBus;
 
         #region Eventos
 
@@ -114,14 +115,6 @@ namespace Com.MyCompany.MyGame
             SwitchScenes(5);
         }
 
-        public override void OnJoinedRoom()
-        {
-            base.OnJoinedRoom();
-            //if (AlEntrarJugador != null)
-            //    AlEntrarJugador(PhotonNetwork.LocalPlayer);
-            //SwitchScenes(5);
-        }
-
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(0);
@@ -129,26 +122,27 @@ namespace Com.MyCompany.MyGame
 
         public override void OnPlayerEnteredRoom(Player other)
         {
+            //Se llama al evento AlEntrarJugador para mostrar los jugadores que entran en la sala
             if (AlEntrarJugador != null)
             {
                 AlEntrarJugador(other);
             }
 
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
+            Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName);
 
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
             }
         }
 
         public override void OnPlayerLeftRoom(Player other)
         {
-            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName);
 
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+                Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
             }
         }
 
@@ -158,6 +152,7 @@ namespace Com.MyCompany.MyGame
 
         private void Awake()
         {
+            //Singleton
             if (instance == null) instance = this;
             else if (instance != this)
             {
@@ -175,14 +170,13 @@ namespace Com.MyCompany.MyGame
             currentScene = SceneManager.GetActiveScene();
         }
 
-        private void Update()
-        {
-        }
-
         #endregion MonoBehaviour Callbacks
 
         #region Public Methods
 
+        /// <summary>
+        /// Encapsulamiento de función PhotonNetwork.LeaveRoom(), esto permite que se llame a la función con el uso de botones desde el editor
+        /// </summary>
         public void LeaveRoom()
         {
             if (PhotonNetwork.InRoom)
@@ -197,6 +191,12 @@ namespace Com.MyCompany.MyGame
             if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
         }
 
+        /// <summary>
+        /// Encapsulamiento de SceneManager.LoadScene(idScene) para facilitar el cambio de escenas
+        /// </summary>
+        /// <param name="idScene">
+        /// numero de la escena según el orden de la Build del proyecto
+        /// </param>
         public void SwitchScenes(int idScene)
         {
             SceneManager.LoadScene(idScene);
@@ -222,12 +222,14 @@ namespace Com.MyCompany.MyGame
             server.CreateOrJoin();
         }
 
+        /// <summary>
+        /// Se saca al jugador de la sala actual y se carga la primera escena del juego
+        /// </summary>
         public void Desconectar()
         {
-            if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();            
+            if (PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom();
             SwitchScenes(0);
         }
-
 
         public void OnEvent(EventData photonEvent)
         {
@@ -248,7 +250,7 @@ namespace Com.MyCompany.MyGame
 
                 //Carga la escena de llegada una vez que todos los jugadores toman el bus
                 case CodigoEventosJuego.EsperarBus:
-                    StartCoroutine(MostrarAnimacionBus(20.0f));//20.0f es el tiempo aprox que dura la animación del bus                    
+                    StartCoroutine(MostrarAnimacionBus((float)duracionAnimacionBus));//20.0f es el tiempo aprox que dura la animación del bus
                     break;
 
                 case CodigoEventosJuego.TerminarEspera:
@@ -262,11 +264,11 @@ namespace Com.MyCompany.MyGame
                     JugadoresJugados.AddRange(JugadoresEnSala);
                     if (Jugador.diaActual == maxDias)
                         SceneManager.LoadScene(10);
-                    else                    
-                        SceneManager.LoadScene(6);                    
+                    else
+                        SceneManager.LoadScene(6);
                     break;
 
-                //Se reinician los datos del juego al comenzar un juego nuevo
+                //Se reinician las listas de jugadores al comenzar un juego nuevo
                 case CodigoEventosJuego.NuevoJuego:
                     JugadoresEnSala.Clear();
                     JugadoresJugados.Clear();
@@ -294,9 +296,8 @@ namespace Com.MyCompany.MyGame
                 JugadoresJugados.Remove(idPlayer);
 
                 if (JugadoresJugados.Count == 0)
-                {                                        
+                {
                     LevantarEventos(CodigoEventosJuego.EsperarBus, null, ReceiverGroup.All);
-
                 }
             }
         }
@@ -306,11 +307,10 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         /// <param name="seconds"></param>
         /// <returns></returns>
-        IEnumerator MostrarAnimacionBus(float seconds)
+        private IEnumerator MostrarAnimacionBus(float seconds)
         {
             yield return new WaitForSeconds(seconds);
             SceneManager.LoadScene(8);
-
         }
 
         /// <summary>

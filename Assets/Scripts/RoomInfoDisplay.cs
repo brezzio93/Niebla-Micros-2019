@@ -44,13 +44,12 @@ namespace Com.MyCompany.MyGame
         {
             if (SceneName == "05 Espera")
             {
-                if (PhotonNetwork.InRoom)
+                if (PhotonNetwork.InRoom)//Se espera a que se se creen los datos de la sala para mostrarlos
                 {
                     string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
                     nombreSala.text = sala[0];
                     string sprite_name = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
                     var face = GameManager.instance.GetAvatarFaces(sprite_name);
-
                     SpriteDuenno.sprite = face.happy;
                     SpriteDuenno.gameObject.SetActive(true);
 
@@ -81,11 +80,20 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Carga una escena del juego
+        /// </summary>
+        /// <param name="scene">
+        /// numero de la escena según el build del juego
+        /// </param>
         private void LoadArena(int scene)
         {
             PhotonNetwork.LoadLevel(scene);
         }
 
+        /// <summary>
+        /// Encapsulamiento de PhotonNetwork.JoinRoom, si no seleccionas una sala te ingresa a una sala aleatoria
+        /// </summary>
         public void JoinSelectedRoom()
         {
             if (ServerManager.roomSelected != null)

@@ -25,26 +25,13 @@ namespace Com.MyCompany.MyGame
 			string[] sala = PhotonNetwork.CurrentRoom.Name.Split('#');
 			nombreSala.text = sala[0];
             CargarSprite();
-            pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
-			llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * 10);
 			pasajes.text = Contar("pago") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
-			llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);
-			/*int pagoVerde = 0; //para el gráfico de porcentaje de pagados
-			int llegoAzul = 1; //para el gráfico de porcentaje de llegados
-			pagoList = new List<double>();
-			llegoList = new List<double>();
-            graficoLineas= new Window_Graph();
-            Debug.Log("Crea listas de pagados, llegadas y grafico");
-            pagoList.AddRange(ContarPorcentajes("pago"));
-            llegoList.AddRange(ContarPorcentajes("llega"));
-            Debug.Log("Se llenan las de porcentaje");
-            graficoLineas.GraficosLineas(pagoList, pagoVerde, GameManager.instance.maxDias);
-            Debug.Log("Llama a verde");
-            graficoLineas.GraficosLineas(llegoList, llegoAzul, GameManager.instance.maxDias);*/
-          
+            llegados.text = Contar("llega") + "/" + (PhotonNetwork.CurrentRoom.PlayerCount * GameManager.instance.maxDias);          
         }
 
-
+        /// <summary>
+        /// Se carga el icono del dueño de la sala
+        /// </summary>
 		private void CargarSprite()
 		{
 			string sprite_name = PhotonNetwork.CurrentRoom.CustomProperties["Imagen"] as string;
@@ -66,7 +53,7 @@ namespace Com.MyCompany.MyGame
 		}
 
 		/// <summary>
-		/// Se cuenta cuantos jugadores han pagado/llegado a lo largo de los 10 días
+		/// Se cuenta cuantos jugadores han pagado/llegado a lo largo de los días
 		/// </summary>
 		/// <param name="opcion">"paga/llega"</param>
 		/// <returns>Cantidad de jugadores que han llegado/pagado</returns>
@@ -85,13 +72,19 @@ namespace Com.MyCompany.MyGame
 			return System.Convert.ToString(cantidad);
 		}
 
+        /// <summary>
+		/// Se cuenta el porcentaje de jugadores han pagado/llegado a lo largo de los días
+		/// </summary>
+		/// <param name="opcion">"paga/llega"</param>
+		/// <returns>Lista con el porcentaje de jugadores que han llegado/pagado cada dia</returns>
 		public List<double> ContarPorcentajes(string opcion)
-
 		{
-			int cantidadTotal = 0, cantidad = 0, index = 0;
-			List<int> contados = new List<int>();
+			int cantidadTotal = 0, cantidad, index = 0;
+			List<int> contados = new List<int>(); //Contiene la cantidad de pagados/llegados de cada día
 			List<double> contadosPorcentaje = new List<double>();
 			bool test;
+
+            //Se cuenta cuantos jugadores pagaron/llegaron cada día
 			for (int i = 1; i <= GameManager.instance.maxDias; i++)
 			{
 				cantidad = 0;
@@ -103,7 +96,6 @@ namespace Com.MyCompany.MyGame
 				}
 				contados.Add(cantidad);
 			}
-
 			foreach (int contado in contados)
 			{
 				cantidadTotal += contado;
@@ -112,7 +104,6 @@ namespace Com.MyCompany.MyGame
 				index++;
 			}
 			Debug.LogFormat("Total {0}: {1}", cantidadTotal, opcion);
-            Debug.Log("entra a porcentaje");
 			return contadosPorcentaje; //para llamar a la funcion de graficos de linea
 		}
 

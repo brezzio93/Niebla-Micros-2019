@@ -15,7 +15,10 @@ namespace Com.MyCompany.MyGame
 
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
-        public struct Params
+        /// <summary>
+        /// Estructura de datos que contiene los parametros de la sala
+        /// </summary>
+        public struct Params 
         {
             public string nombre, monto, precio, ganancia, cantidad;
 
@@ -40,6 +43,9 @@ namespace Com.MyCompany.MyGame
             cantidad.keyboardType = TouchScreenKeyboardType.NumberPad;
         }
 
+        /// <summary>
+        /// Se almacenan los parametros de la sala en el objeto param
+        /// </summary>
         public void setGetInputs()
         {
             param.nombre = PhotonNetwork.LocalPlayer.NickName;

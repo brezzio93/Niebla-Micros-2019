@@ -20,7 +20,7 @@ namespace Com.MyCompany.MyGame
 
         private int evasores = 0;
         private int precio, ganancia, monto_inicial;
-        private static bool noHasPagado = false;
+        private bool noHasPagado = false;
 
         public static int diaActual = 0;
 
@@ -47,6 +47,7 @@ namespace Com.MyCompany.MyGame
             //Se asignan los valores a los objetos tipo Text asociados al dinero que maneja el jugador
             if (diaActual == 1) billetera = monto_inicial;
             else billetera = CalcularBilletera();
+
             //Se oculta el botón de pagar cuando el jugador no tiene dinero para el pasaje
             if (billetera < precio)
             {
@@ -54,18 +55,14 @@ namespace Com.MyCompany.MyGame
                 noPagar.transform.Translate(Vector3.left * 200);
             }
             else
-            {
                 pagar.gameObject.SetActive(true);
-                saldo.text = System.Convert.ToString(billetera);
-            }
+
             saldo.text = System.Convert.ToString(billetera);
             pasaje.text = System.Convert.ToString(-precio);
 
-            
-
             //En caso de que no se haya pagado el pasaje durante la sesión actual de juego se cambia el contenido del botón noPago
             if (diaActual == 1) noHasPagado = false;
-            if (diaActual > 1 && !noHasPagado)
+            if (diaActual > 1)
             {
                 if (!System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["pago" + (diaActual - 1)]))
                 {
@@ -74,15 +71,15 @@ namespace Com.MyCompany.MyGame
             }
             if (noHasPagado) noPago.text = "Pasar por esta vez";
             else noPago.text = "Pasar";
-
-
         }
 
         /// <summary>
         /// Revisa que el jugador pague su pasaje y en base a eso calcula la probabilidad de llegar junto con los
         /// calculos del pasaje de bus
         /// </summary>
-        /// <param name="button"> Elección de pagar/no pagar</param>
+        /// <param name="button"> 
+        /// Elección de pagar/no pagar
+        /// </param>
         public void TomarBus(bool button)
         {
             if (diaActual <= GameManager.instance.maxDias)
@@ -95,10 +92,14 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Se añade la selección del jugador a su historial de pago y se descuenta saldo de la billetera del jugador
         /// </summary>
+        /// <param name="button">
+        /// Decisión de pagar o no pagar
+        /// </param>
         public void Pagar(bool button)
         {
             GameManager.LevantarEventos(GameManager.CodigoEventosJuego.JugadorJuega, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.All);
 
+            //Se añade el custom propertie de pago al jugador local
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
             CustomProps.Add("pago" + diaActual, button);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);

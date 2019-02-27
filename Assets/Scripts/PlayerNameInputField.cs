@@ -28,6 +28,8 @@ namespace Com.MyCompany.MyGame
         {
             string defaultName = string.Empty;
             InputField _inputField = this.GetComponent<InputField>();
+
+            //Se obtiene el nombre del jugador que ha sido guardado con PlayerPrefs
             if (_inputField != null)
             {
                 if (PlayerPrefs.HasKey(playerNamePrefKey))
@@ -36,7 +38,6 @@ namespace Com.MyCompany.MyGame
                     _inputField.text = defaultName;
                 }
             }
-
             PhotonNetwork.NickName = defaultName;
         }
 

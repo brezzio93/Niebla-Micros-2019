@@ -87,10 +87,13 @@ namespace Com.MyCompany.MyGame
             }
         }
 
+        /// <summary>
+        /// Actualiza lista de jugadores en la sala de espera
+        /// </summary>
         public void ListarJugadoresEspera()
         {
             Player[] playerNoHost = PhotonNetwork.PlayerList;
-            List<Player> PlayerList = new List<Player>();
+            List<Player> PlayerList = new List<Player>();//Copia de PhotonNetwork.PlayerList sin el host de la sala
             PlayerList.AddRange(playerNoHost);
             PlayerList.Remove(PhotonNetwork.MasterClient);
 
