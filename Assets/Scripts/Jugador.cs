@@ -18,7 +18,6 @@ namespace Com.MyCompany.MyGame
 
         private float probabilidad;
 
-        private int evasores = 0;
         private int precio, ganancia, monto_inicial;
         private bool noHasPagado = false;
 
@@ -52,7 +51,7 @@ namespace Com.MyCompany.MyGame
             if (billetera < precio)
             {
                 pagar.gameObject.SetActive(false);
-                noPagar.transform.Translate(Vector3.left * 200);
+                noPagar.transform.Translate(Vector3.left * 250);//Numero mágico para centrar botón "No pagar" cuando no se pueda pagar el pasaje
             }
             else
                 pagar.gameObject.SetActive(true);

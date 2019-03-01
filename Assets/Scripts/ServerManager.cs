@@ -10,7 +10,7 @@ namespace Com.MyCompany.MyGame
     {
         private List<string> roomName = new List<string>();
         private Dictionary<string, RoomInfo> cachedRoomList;
-        private RoomParameters parameters = new RoomParameters();
+        //private RoomParameters parameters = new RoomParameters();
 
         private string currentScene;
 
@@ -210,7 +210,7 @@ namespace Com.MyCompany.MyGame
             {
                 Debug.Log(room.Name);
                 GameObject button = Instantiate(buttonTemplate) as GameObject;
-                var btnlist = button.GetComponent<ButtonListButton>();
+                var btnlist = button.GetComponent<RoomButton>();
 
                 button.SetActive(true);
                 btnlist.SetText(room.Name);

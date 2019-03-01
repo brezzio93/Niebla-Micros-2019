@@ -11,8 +11,6 @@ namespace Com.MyCompany.MyGame
 
     public class PlayerNameInputField : MonoBehaviour
     {
-        public PlayerParameters parametros = new PlayerParameters();
-
         #region Private Constants
 
         // Store the PlayerPref Key to avoid typos

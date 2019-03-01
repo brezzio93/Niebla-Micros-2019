@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Com.MyCompany.MyGame
 {
-    public class ButtonListButton : MonoBehaviour
+    public class RoomButton : MonoBehaviour
     {
         [SerializeField]
         private Text myText;

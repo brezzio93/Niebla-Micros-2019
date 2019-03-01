@@ -11,8 +11,9 @@ namespace Com.MyCompany.MyGame
 {
     public class GameManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
-        private ServerManager server = new ServerManager();
-        private RoomParameters parameters = new RoomParameters();
+        private ServerManager server;
+        //private ServerManager server = new ServerManager();
+        //private RoomParameters parameters = new RoomParameters();
 
         private ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 

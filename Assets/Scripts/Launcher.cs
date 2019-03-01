@@ -20,13 +20,6 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         string gameVersion = "1";
 
-        /// <summary>
-        /// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon,
-        /// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
-        /// Typically this is used for the OnConnectedToMaster() callback.
-        /// </summary>
-        private bool isConnecting;
-
         #endregion Private Fields
 
         #region MonoBehaviour CallBacks
@@ -53,20 +46,6 @@ namespace Com.MyCompany.MyGame
 
         #region MonoBehaviourPunCallbacks Callbacks
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
-
-            // we don't want to do anything if we are not attempting to join a room.
-            // this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
-            // we don't want to do anything.
-            if (isConnecting)
-            {
-                // #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnJoinRandomFailed()
-                PhotonNetwork.JoinRandomRoom();
-            }
-        }
-
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
@@ -74,10 +53,7 @@ namespace Com.MyCompany.MyGame
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
-
-            // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-            //PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+            Debug.Log("Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
         }
 
         public override void OnJoinedRoom()
@@ -106,14 +82,11 @@ namespace Com.MyCompany.MyGame
         /// </summary>
         public void Connect()
         {
-            // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
-            isConnecting = true;
-
-            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-            //if (PhotonNetwork.IsConnected) Debug.Log("Conectados");
-                // #Critical, we must first and foremost connect to Photon Online Server.
+            if (!PhotonNetwork.IsConnected)
+            {
                 PhotonNetwork.GameVersion = gameVersion;
                 PhotonNetwork.ConnectUsingSettings();
+            }
         }
 
         #endregion Public Methods

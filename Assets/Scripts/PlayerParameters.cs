@@ -13,7 +13,7 @@ namespace Com.MyCompany.MyGame
         // Use this for initialization
         private void Start()
         {
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         }
 
         /// <summary>
@@ -23,16 +23,13 @@ namespace Com.MyCompany.MyGame
         {
             ExitGames.Client.Photon.Hashtable pago = new ExitGames.Client.Photon.Hashtable();
             ExitGames.Client.Photon.Hashtable llega = new ExitGames.Client.Photon.Hashtable();
-
+            ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
             for (int i = 1; i <= GameManager.instance.maxDias; i++)
             {
                 pago.Add("pago" + i, false);
             }
             PhotonNetwork.SetPlayerCustomProperties(pago);
             PhotonNetwork.SetPlayerCustomProperties(llega);
-
-            ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
-
             CustomProps["Imagen"] = ChosenName;
             PhotonNetwork.SetPlayerCustomProperties(CustomProps);
         }

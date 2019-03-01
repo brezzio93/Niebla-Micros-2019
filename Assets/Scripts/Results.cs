@@ -32,15 +32,16 @@ namespace Com.MyCompany.MyGame
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Cambia los elementos del Canvas según si el jugador llegó o no al trabajo el día de hoy
+        /// </summary>
         private void ResultadosViaje()
         {
             CalcularLlegada();
-            string nombreSprite;
             bool llega = System.Convert.ToBoolean(PhotonNetwork.LocalPlayer.CustomProperties["llega" + Jugador.diaActual]);
             if (llega)
             {
-                nombreSprite = GetNombreSprite(0);
-                ConstruirAvatar(nombreSprite, llega);
+                ConstruirAvatar(PhotonNetwork.LocalPlayer.CustomProperties["Imagen"] as string, llega);
                 CargarSprite(bus, Buses[1]);
                 message.text = "¡Bien, has llegado a tu trabajo!";
                 message.color = Color.green;
@@ -51,8 +52,8 @@ namespace Com.MyCompany.MyGame
             {
                 obtenidoPlainText.gameObject.SetActive(false);
                 panel.gameObject.SetActive(false);
-                nombreSprite = GetNombreSprite(1);
-                ConstruirAvatar(nombreSprite, llega);
+
+                ConstruirAvatar(PhotonNetwork.LocalPlayer.CustomProperties["Imagen"] as string, llega);
                 CargarSprite(bus, Buses[0]);
                 placeholder.transform.Translate(Vector3.right * 200);//numero magico para centrar el avatar, ya q no hay panel del remuneracion.
                 //Comento esta linea xq emparente el avatar al placeholder. Lazy~
@@ -63,26 +64,11 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-        private string GetNombreSprite(int num)
-        {
-            string name = PhotonNetwork.LocalPlayer.CustomProperties["Imagen"] as string;
-            string[] parts = name.Split('_');
-            parts[2] = System.Convert.ToString(System.Convert.ToInt32(parts[2]) + num);
-
-            if (name == "atlas_1_20")
-            {
-                parts[2] = "23";
-            }
-
-            name = parts[0];
-
-            for (int i = 1; i < parts.Length; i++)
-            {
-                name = string.Concat(name, "_", parts[i]);
-            }
-            return name;
-        }
-
+        /// <summary>
+        /// Se obtiene y activa el sprite solicitado
+        /// </summary>
+        /// <param name="image">imagen sobre la cual se asignarán los valores del sprite del parametro "sprite"</param>
+        /// <param name="sprite">Sprite con la imagen del bus descompuesto o en buen estado</param>
         private void CargarSprite(Image image, Sprite sprite)
         {
             image.sprite = sprite;
@@ -99,30 +85,28 @@ namespace Com.MyCompany.MyGame
             avatar.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Toma todas las decisiones de los jugadores hasta el día actual para calcular la probabilidad
+        /// de llegada de bus
+        /// </summary>
         private void CalcularLlegada()
         {
             Debug.Log("CalcularLlegada");
             int evasores = 0;
-            bool paga, llega, juega;
-            float pFalla, pLlega;
-            double x;
+            bool llega, juega;
+            float pLlega;
+            double razonEvasores;
 
-            List<string> jugadoresSiJugaron = new List<string>();
+            List<string> jugadoresSiJugaron = new List<string>();//Lista auxiliar para comprobar quienes no han jugado el día de hoy y por tanto automaticamente no llegarán
 
             ExitGames.Client.Photon.Hashtable CustomProps = new ExitGames.Client.Photon.Hashtable();
 
             jugadoresSiJugaron.Clear();
             jugadoresSiJugaron.AddRange(GameManager.instance.JugadoresEnSala);
-            Debug.Log(GameManager.instance.JugadoresJugados.Count);
             foreach (var jugador in GameManager.instance.JugadoresJugados)
             {
                 if (jugadoresSiJugaron.Contains(jugador))
                     jugadoresSiJugaron.Remove(jugador);
-            }
-            Debug.Log(jugadoresSiJugaron.Count);
-            for (int i = 0; i < jugadoresSiJugaron.Count; i++)
-            {
-                Debug.Log(jugadoresSiJugaron[i]);
             }
 
             if (jugadoresSiJugaron.Contains(PhotonNetwork.LocalPlayer.NickName))
@@ -130,17 +114,10 @@ namespace Com.MyCompany.MyGame
             else
                 juega = false;
 
-            foreach (Player p in PhotonNetwork.PlayerList)
-            {
-                paga = System.Convert.ToBoolean(p.CustomProperties["pago" + Jugador.diaActual]);
-                if (paga == false) evasores++;
-            }
-            Debug.Log(" Evasores: " + evasores + " de " + PhotonNetwork.CurrentRoom.PlayerCount);
-            x = ((double)evasores / (double)PhotonNetwork.CurrentRoom.PlayerCount);
-            pFalla = 1 - (1 / (1 + Mathf.Exp(13 * ((float)x - 0.5f))));
-            pLlega = 1 - pFalla;
-            pLlega = pLlega * 100;
-            Debug.Log(pLlega + "%");
+            evasores = ContarEvasores();
+            razonEvasores = ((double)evasores / ((double)PhotonNetwork.CurrentRoom.PlayerCount * (double)Jugador.diaActual));
+            Debug.Log("Razon Evasores " + razonEvasores);
+            pLlega = ProbabilidadLlegada(razonEvasores);
 
             if (pLlega >= UnityEngine.Random.Range(0, 100))
                 llega = true;
@@ -153,6 +130,50 @@ namespace Com.MyCompany.MyGame
             }
             else if (juega) CustomProps.Add("llega" + Jugador.diaActual, llega);
             PhotonNetwork.LocalPlayer.SetCustomProperties(CustomProps);
+        }
+
+        /// <summary>
+        /// Se cuenta la cantidad de evasores de pasaje de bus
+        /// </summary>
+        /// <returns>
+        /// Cantidad de evasores
+        /// </returns>
+        private int ContarEvasores()
+        {
+            int evasores = 0;
+            bool paga;
+            for (int i = 1; i <= Jugador.diaActual; i++)
+            {
+                foreach (Player p in PhotonNetwork.PlayerList)
+                {
+                    paga = System.Convert.ToBoolean(p.CustomProperties["pago" + i]);//Se revisa si cada jugador pagó en "i" día
+                    if (paga == false) evasores++;
+                }
+            }
+
+            Debug.Log(" Evasores: " + evasores + " de " + PhotonNetwork.CurrentRoom.PlayerCount * Jugador.diaActual);
+
+            return evasores;
+        }
+
+        /// <summary>
+        /// Se utiliza la función de calculo de probabilidad de llegada para calcular la probabilidad de llegada del bus
+        /// </summary>
+        /// <param name="x">
+        /// Razon de evasores de pasaje
+        /// </param>
+        /// <returns>
+        /// Probabilidad de llegada del bus
+        /// </returns>
+        private float ProbabilidadLlegada(double x)
+        {
+            float probabilidadFalla, probabilidadLlega;
+            probabilidadFalla = 1 - (1 / (1 + Mathf.Exp(13 * ((float)x - 0.5f))));
+            probabilidadLlega = 1 - probabilidadFalla;
+            probabilidadLlega = probabilidadLlega * 100;
+            Debug.Log(probabilidadLlega + "%");
+
+            return probabilidadLlega;
         }
     }
 }

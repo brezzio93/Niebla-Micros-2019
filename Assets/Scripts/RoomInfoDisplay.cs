@@ -20,7 +20,7 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Button comenzarButton;
 
-        private RoomParameters parameters = new RoomParameters();
+        //private RoomParameters parameters = new RoomParameters();
 
         private Scene currentScene;
         public static string SceneName;
@@ -55,6 +55,10 @@ namespace Com.MyCompany.MyGame
 
                     CountPlayersInRoom();
                 }
+                
+                //La sala no se listará si está llena
+                if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+                    PhotonNetwork.CurrentRoom.IsVisible = false;                
             }
         }
 
@@ -76,6 +80,9 @@ namespace Com.MyCompany.MyGame
             if (PhotonNetwork.IsMasterClient)
             {
                 GameManager.LevantarEventos(GameManager.CodigoEventosJuego.NuevoJuego, null, ReceiverGroup.All);
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+
                 LoadArena(6);
             }
         }

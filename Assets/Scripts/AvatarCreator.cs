@@ -9,7 +9,7 @@ namespace Com.MyCompany.MyGame
         [HideInInspector]
         public bool asignado; //Este valor se ocupa al momento de listar los jugadores en la sala, desde la instancia del Host
 
-        public Image Avatar, textBalloon, placeHolder;
+        public Image Avatar, textBalloon, placeHolder, selectedAvatar;
         public Text namePlayer;
         private string strName;
 
@@ -59,7 +59,9 @@ namespace Com.MyCompany.MyGame
         /// <summary>
         /// Almacena el nombre del jugador que se está uniendo a la sala de espera
         /// </summary>
-        /// <param name="nickname"></param>
+        /// <param name="nickname">
+        /// Nombre del jugador que entra a la sala
+        /// </param>
         public void ObtenerNombre(string nickname)
         {
             Debug.Log(nickname);
@@ -75,6 +77,7 @@ namespace Com.MyCompany.MyGame
             {
                 namePlayer.text = "";
                 textBalloon.gameObject.SetActive(false);
+                selectedAvatar.gameObject.SetActive(false);
             }
             else
             {
@@ -82,11 +85,13 @@ namespace Com.MyCompany.MyGame
                 {
                     namePlayer.text = "";
                     textBalloon.gameObject.SetActive(false);
+                    selectedAvatar.gameObject.SetActive(false);
                 }
                 else //Al hacer click en una casilla que no esté mostrando el nombre del jugador, se mostrará junto a un globo de texto
                 {
                     namePlayer.text = strName;
                     textBalloon.gameObject.SetActive(true);
+                    selectedAvatar.gameObject.SetActive(true);
                 }
             }
         }

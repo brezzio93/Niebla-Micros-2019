@@ -13,8 +13,6 @@ namespace Com.MyCompany.MyGame
         [SerializeField]
         private Button mostrarResultadosButton;
 
-        private GameManager manager = new GameManager();
-
         // Start is called before the first frame update
         private void Start()
         {
